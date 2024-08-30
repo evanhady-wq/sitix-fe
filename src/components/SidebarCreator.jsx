@@ -1,0 +1,102 @@
+import React, { useEffect, useState } from "react";
+import { Sidebar, Menu, MenuItem, sidebarClasses } from "react-pro-sidebar";
+import Dummyimage from "../assets/DummyCard.jpeg";
+import { FaFacebookSquare, FaInstagram, FaTwitterSquare } from "react-icons/fa";
+import { CiYoutube } from "react-icons/ci";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { BASE_URL } from "../service/constants";
+
+const SidebarCreator = () => {
+  const [creator, setCreator] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchCreator = async () => {
+    try {
+      const token = localStorage.getItem("token_creator");
+
+      if (!token) {
+        throw new Error("Token tidak ditemukan. Harap login terlebih dahulu.");
+      }
+
+      const response = await axios.get(`${BASE_URL}/api/creator/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setCreator(response.data.data);
+    } catch (error) {
+      setError(`Failed to fetch creator profile: ${error.message}`);
+     
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCreator();
+  }, []);
+  return (
+    <>
+      <Sidebar
+        rootStyles={{
+          [`.${sidebarClasses.container}`]: {
+            backgroundColor: "#1F316F",
+            height: "100vh",
+            position: "fixed",
+            width: "250px",
+          },
+        }}
+      >
+        <Menu className="text-white">
+          <p className="font-bold pl-4 pt-4">SiTix Creator</p>
+          <div className="flex gap-2 pl-4 mx-2 mb-4 border-1 items-center rounded-xl h-16">
+            <img src={Dummyimage} className="w-10 h-10 rounded-full" />
+            <div className="pt-2">
+              <p className="text-sm mb-0">{creator.name}</p>
+              <p className="text-sm font-bold">Creator</p>
+            </div>
+          </div>
+          <MenuItem
+            className="hover:text-custom-blue-3"
+            component={<Link to="/creator/dashboard" />}
+          >
+            Dashboard
+          </MenuItem>
+          <MenuItem
+            className="hover:text-custom-blue-3"
+            component={<Link to="/creator/profile" />}
+          >
+            Profile
+          </MenuItem>
+          <MenuItem
+            className="hover:text-custom-blue-3"
+            component={<Link to="/creator/create-event" />}
+          >
+            Create Event
+          </MenuItem>
+          <MenuItem
+            className="hover:text-custom-blue-3"
+            component={<Link to="/creator/event-saya" />}
+          >
+            My Event
+          </MenuItem>
+
+          <div className="pl-4 mt-4 ">
+            <p className="font-bold mb-2">About Us</p>
+            <p className="font-bold mb-3">Term & Conditions</p>
+            <div className="flex gap-2">
+              <FaInstagram />
+              <FaFacebookSquare />
+              <FaTwitterSquare />
+              <CiYoutube />
+            </div>
+          </div>
+        </Menu>
+      </Sidebar>
+    </>
+  );
+};
+
+export default SidebarCreator;
