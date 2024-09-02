@@ -13,7 +13,6 @@ const OrderPage = () => {
   const [error, setError] = useState(null);
   const { eventid } = useParams();
   const [event, setEvent] = useState([]);
-
   const [quantities, setQuantities] = useState({});
 
   const fetchEvent = async () => {
@@ -24,7 +23,7 @@ const OrderPage = () => {
         throw new Error("Token tidak ditemukan !");
       }
 
-      const response = await axios.get(`${BASE_URL}/api/event/${eventid}`, {
+      const response = await axios.get(`${BASE_URL}/api/event/allevent/${eventid}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

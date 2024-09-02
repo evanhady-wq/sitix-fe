@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import DummyCard from "../assets/DummyCard.jpeg";
 import { IoLocation } from "react-icons/io5";
 import { Button, Input, Select } from "@nextui-org/react";
+import useAxios from "../hooks/useAxios";
 
 const EventPage = () => {
   const [event, setEvent] = useState(null);
@@ -16,37 +17,32 @@ const EventPage = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const fetchEvent = async () => {
-    try {
-      const token = localStorage.getItem("token");
 
-      if (!token) {
-        throw new Error("Token tidak ditemukan !");
-      }
-
-      const response = await axios.get(`${BASE_URL}/api/event/${eventid}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setEvent(response.data.data);
-      console.log(response.data.data.name);
-    } catch (error) {
-      console.error("Failed to fetch event:", error.message);
-      setError("failed to fetch event");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data, error: fetchError, loading: isLoading, refetch } = useAxios(
+    `${BASE_URL}/api/event/allevent/${eventid}`,
+    "GET",
+    null 
+  );
 
   useEffect(() => {
-    fetchEvent();
-  }, [eventid]);
+    if (data) {
+      setEvent(data); 
+      setError(null);
+    } else if (fetchError) {
+      setError(fetchError); 
+    }
+    setLoading(isLoading);
+  }, [data, fetchError, isLoading]);
 
   const handleOrderClick = (eventid) => {
-    navigate(`/event/order/${eventid}`)
-  }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/signin'); 
+      return; 
+    }
+    
+    navigate(`/event/order/${eventid}`);
+  };
 
   return (
     <>
@@ -70,7 +66,7 @@ const EventPage = () => {
                 </p>
                 <div className="flex">
                   <IoLocation color="blue" className="pt-1" />
-                  <p className="">{event.location}</p>
+                  <p className="">{event.city}</p>
                 </div>
               </div>
 
@@ -78,33 +74,38 @@ const EventPage = () => {
                 <div className="bg-slate-200 rounded-xl p-2 h-[60px] w-[250px]">
                   <p className="text-sm mb-1">Tanggal</p>
                   <p className="font-bold text-sm">
-                    {new Date(event.date).toLocaleDateString()}
+                    {new Date(event.date)
+                      .toLocaleDateString("id-ID", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      })}
                   </p>
                 </div>
                 <div className="bg-slate-200 rounded-xl p-2 h-[60px] w-[250px]">
-                  <p className="text-sm mb-1">Waktu </p>
+                  <p className="text-sm mb-1">Waktu Mulai </p>
+                  <p className="font-bold text-sm">
+                    {new Date(event.date).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </p>
                 </div>
                 <div className="bg-slate-200 rounded-xl p-2 h-[60px] w-[250px]">
                   <p className="text-sm mb-1">Tipe Event</p>
                   <p className="font-bold text-sm">{event.eventCategory}</p>
                 </div>
               </div>
-              <div
-                className="items-center justify-around  my-4 p-2 w-[770px]"
-              >
+              <div className="items-center justify-around  my-4 p-2 w-[770px]">
                 <p className="font-bold">Description</p>
                 <p className="text-justify">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Ducimus, voluptates! Eos neque blanditiis, eligendi natus
-                  fugit nulla corrupti vero, impedit laborum distinctio
-                  exercitationem beatae quaerat asperiores labore assumenda
-                  saepe vitae?
+                  {event.description}
                 </p>
-                <Button 
-                className="text-white font-bold bg-custom-blue-2 w-[150px]"
-                onClick={() => {
-                  handleOrderClick(event.id)
-                }}
+                <Button
+                  className="text-white font-bold bg-custom-blue-2 w-[150px]"
+                  onClick={() => {
+                    handleOrderClick(event.id);
+                  }}
                 >
                   Beli Tiket Event
                 </Button>

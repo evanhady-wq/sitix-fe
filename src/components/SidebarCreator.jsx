@@ -26,6 +26,7 @@ const SidebarCreator = () => {
         },
       });
       setCreator(response.data.data);
+      console.log(response.data.data)
     } catch (error) {
       setError(`Failed to fetch creator profile: ${error.message}`);
      
