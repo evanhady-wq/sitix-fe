@@ -5,17 +5,17 @@ import { useNavigate } from "react-router-dom";
 function Header() {
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token")
-  const tokenCreator = localStorage.getItem("token_creator")
+  const token = localStorage.getItem("token");
+  const tokenCreator = localStorage.getItem("token_creator");
 
-  const isLoggedIn = !!token || !!tokenCreator
+  const isLoggedIn = !!token || !!tokenCreator;
 
   const handleSignOut = () => {
     const confirmLogout = window.confirm("Log out?");
 
     if (confirmLogout) {
       localStorage.removeItem("token");
-      localStorage.removeItem("token_creator")
+      localStorage.removeItem("token_creator");
 
       navigate("/signin");
     }
@@ -33,38 +33,43 @@ function Header() {
               Si
               <span className="text-custom-blue-1">Tix</span>
             </div>
-            <Input
-              placeholder="Cari di SiTix"
-              endContent={<ion-icon name="search-outline"></ion-icon>}
-              radius="lg"
-              className="w-54 md:w-96 pr-2"
-            />
-          </div>
+            <div className="flex" style={{width: 1200 }}>
+              <div style={{flex:4 }} >
+                <Input
+                  placeholder="Cari di SiTix"
+                  endContent={<ion-icon name="search-outline"></ion-icon>}
+                  radius="lg"
+                  className=" w-full"
+                />
+              </div>
+              <div style={{margin: 10}}></div>
 
-          <div className="flex items-center space-x-4">
-            {isLoggedIn ? (
-              <Button
-                className="bg-transparent border-2 border-custom-blue-2 text-custom-blue-2 font-bold text-md"
-                onClick={handleSignOut}
-              >
-                Sign Out
-              </Button>
-            ) : (
-              <>
+            <div className="flex-1 items-center space-x-4 flex ml-6  " >
+              {isLoggedIn ? (
                 <Button
-                  className="bg-transparent border-2 border-custom-blue-2 text-custom-blue-2 font-bold text-md"
-                  onClick={() => navigate("/signin")}
+                  className="bg-transparent border-2 border-custom-blue-2 text-custom-blue-2 font-bold text-md hover:bg-black"
+                  onClick={handleSignOut}
                 >
-                  Sign In
+                  Sign Out
                 </Button>
-                <Button
-                  className="bg-custom-blue-2 text-white font-bold text-sm hidden md:inline"
-                  onClick={() => navigate("/signup")}
-                >
-                  Sign Up
-                </Button>
-              </>
-            )}
+              ) : (
+                <>
+                  <Button
+                    className="bg-transparent border-2 border-custom-blue-2 text-custom-blue-2 font-bold text-md"
+                    onClick={() => navigate("/signin")}
+                  >
+                    Sign In
+                  </Button>
+                  <Button
+                    className="bg-custom-blue-2 text-white font-bold text-sm hidden md:inline"
+                    onClick={() => navigate("/signup")}
+                  >
+                    Sign Up
+                  </Button>
+                </>
+              )}
+            </div>
+            </div>
           </div>
         </div>
       </header>

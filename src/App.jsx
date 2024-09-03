@@ -9,6 +9,8 @@ import CreatorDashboard from "./pages/CreatorDashboard";
 import CreatorProfile from "./pages/CreatorProfile";
 import CreatorCreateEvent from "./pages/CreatorCreateEvent";
 import CreatorEventSaya from "./pages/CreatorEventSaya";
+import AboutUs from "./pages/AboutUs";
+import TermAndCondition from "./pages/TermAndCondition";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
         <Route path="/creator/profile" element={<CreatorProfile />} />
         <Route path="/creator/create-event" element={<CreatorCreateEvent />} />
         <Route path="/creator/event-saya" element={<CreatorEventSaya />} />
+        <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="/term" element={<TermAndCondition />} />
       </Routes>
     </>
   );

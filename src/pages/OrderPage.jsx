@@ -18,17 +18,10 @@ const OrderPage = () => {
 
   const fetchEvent = async () => {
     try {
-      const token = localStorage.getItem("token");
+     
 
-      if (!token) {
-        throw new Error("Token tidak ditemukan !");
-      }
-
-      const response = await axios.get(`${BASE_URL}/api/event/${eventid}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(`${BASE_URL}/api/event/allevent/${eventid}`
+      );
 
       setEvent(response.data.data.ticketCategories);
     } catch (error) {

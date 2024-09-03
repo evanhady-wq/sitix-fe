@@ -13,19 +13,17 @@ const EventCard = () => {
 
   const fetchEvents = async () => {
     try {
-      const token = localStorage.getItem("token");
+      // const token = localStorage.getItem("token");
 
-      if (!token) {
-        throw new Error("Token tidak ditemukan. Harap login terlebih dahulu.");
-      }
+      // if (!token) {
+      //   throw new Error("Token tidak ditemukan. Harap login terlebih dahulu.");
+      // }
 
-      const response = await axios.get("http://10.10.102.144:8080/api/event", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
+      const response = await axios.get("http://10.10.102.144:8080/api/event/allevent"
+      );
+      
       setEvents(response.data.data);
+      console.log(response.data.data);
     } catch (error) {
       console.error("Failed to fetch events:", error);
       setError("Failed to fetch events");
@@ -36,7 +34,9 @@ const EventCard = () => {
 
   useEffect(() => {
     fetchEvents();
+    
   }, []);
+  
 
   const handleCardClick = (eventid) => {
     navigate(`/event/${eventid}`);
@@ -45,9 +45,9 @@ const EventCard = () => {
   return (
     <div className="mx-16 my-8">
       <div>
-        <p className="font-bold text-xl">Rekomendasi Event</p>
+        <p className="font-bold text-xl text-center">Rekomendasi Event</p>
       </div>
-      <div className="flex flex-wrap gap-4 ">
+      <div className="flex flex-wrap justify-center gap-4 ">
         {events.map((event) => (
           <div key={event.id} className="w-48">
             <Card className="w-[200px] cursor-pointer">
@@ -57,7 +57,7 @@ const EventCard = () => {
                 }}
               >
                 <img
-                  src={DummyCard}
+                  src={event.poster}
                   className="w-full h-48 rounded-md object-cover"
                   alt="Event"
                 />

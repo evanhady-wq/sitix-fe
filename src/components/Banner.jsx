@@ -2,9 +2,10 @@ import React from "react";
 import Banner2 from "../assets/Banner2.jpeg";
 import Banner3 from "../assets/Banner3.png";
 import Banner4 from "../assets/Banner4.png";
+import Banner5 from "../assets/Banner5.jpg";
 
 const Banner = () => {
-  const banners = [Banner2, Banner3, Banner4];
+  const banners = [Banner2, Banner3, Banner4, Banner5];
 
   return (
     <div
@@ -35,8 +36,8 @@ const Banner = () => {
           >
             <img
               src={banner}
-              className="d-block mx-auto h-64 md:h-96 lg:h-[600px] w-full object-cover"
-              style={{ objectFit: "cover", height: "auto" }} 
+              className="d-block mx-auto h-64 md:h-96 lg:h-[600px] w-[2000px] object-cover"
+              style={{ objectFit: "cover", height: "auto" }}
               alt={`Slide ${index + 1}`}
             />
           </div>

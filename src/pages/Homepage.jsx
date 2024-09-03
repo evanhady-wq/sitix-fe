@@ -7,13 +7,15 @@ import EventCard from "../components/EventCard";
 
 function Homepage() {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Header />
       <Banner />
-      <EventCard />
+      <div className="items-center justify-center">
+        <EventCard />
+      </div>
       <Footer />
     </div>
   );
 }
 
-export default withLoading (Homepage);
+export default withLoading(Homepage);
