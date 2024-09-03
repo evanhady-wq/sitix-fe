@@ -2,7 +2,7 @@ import { Button, Input } from "@nextui-org/react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function Header() {
+function Header({setSearchTerm}) {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -27,7 +27,7 @@ function Header() {
         <div className="container mx-auto px-4 py-2 flex items-center justify-between">
           <div
             className="flex items-center space-x-4 cursor-pointer"
-            onClick={() => navigate("/")}
+            // onClick={() => navigate("/")}
           >
             <div className="text-custom-blue-3 font-bold text-3xl">
               Si
@@ -40,6 +40,7 @@ function Header() {
                   endContent={<ion-icon name="search-outline"></ion-icon>}
                   radius="lg"
                   className=" w-full"
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
               <div style={{margin: 10}}></div>

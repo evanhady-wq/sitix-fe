@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import DummyCard from "../assets/DummyCard.jpeg";
 import { IoLocation } from "react-icons/io5";
 import { Button } from "@nextui-org/react";
+import HeaderWithoutInput from "../components/HeaderWithoutInput";
 
 const EventPage = () => {
   const [event, setEvent] = useState(null);
@@ -44,7 +45,8 @@ const EventPage = () => {
         <p>Loading...</p>
       ) : (
         <>
-          <Header />
+          {/* <Header /> */}
+          <HeaderWithoutInput />
           <div className="flex-grow">
             <div className="flex mt-12 mx-24">
               <div className="w-1/3 flex justify-center">
