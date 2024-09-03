@@ -229,7 +229,7 @@ const AboutUs = () => {
           </div>
           <div className="w-[70%] mt-5">
             <div className="flex flex-row" style={{ gap: 20 }}>
-              <div className="bg-red-400/50 flex-shrink-0 w-[500px]  p-4 rounded flex flex-col justify-between">
+              <div className="bg-red-400/50 flex-shrink-0 w-[500px]  p-4 rounded flex flex-col justify-between shadow-2xl">
                 <p className="text-center text-lg font-semibold">
                   "Menggunakan SiTix sangat membantu saya mempromosikan event
                   yang saya buat. Fitur-fiturnya lengkap dan mudah digunakan!"
@@ -248,7 +248,7 @@ const AboutUs = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-yellow-500 flex-shrink-0 w-[500px]  p-4 rounded flex flex-col justify-between">
+              <div className="bg-yellow-500 flex-shrink-0 w-[500px]  p-4 rounded flex flex-col justify-between shadow-2xl">
                 <p className="text-center text-lg font-semibold">
                   "SiTix benar-benar platform yang tepat untuk creator. Saya
                   bisa menjangkau audiens yang lebih luas dan meningkatkan
@@ -264,11 +264,11 @@ const AboutUs = () => {
                   />
                   <div className="">
                     <p className="text-2xl">Gemilang Evan</p>
-                    <p className="-mt-4">CEO Pesta Rakyat Jelata</p>
+                    <p className="-mt-4">CEO Pesta Rakyat Indonesia</p>
                   </div>
                 </div>
               </div>
-              <div className="bg-blue-500 flex-shrink-0 w-[500px] p-4 rounded flex flex-col justify-between">
+              <div className="bg-blue-500 flex-shrink-0 w-[500px] p-4 rounded flex flex-col justify-between shadow-2xl">
                 <p className="text-center text-lg font-semibold">
                   "Dengan SiTix, saya merasa proses penjualan tiket jadi lebih
                   mudah dan efisien. Pokoknya top banget deh!"
@@ -290,7 +290,7 @@ const AboutUs = () => {
             </div>
           </div>
           <div className="flex flex-row justify-center ml-12 mt-5 gap-3">
-          <div className="bg-green-500 flex-shrink-0 w-[500px] p-4 rounded flex flex-col justify-between">
+              <div className="bg-green-500 flex-shrink-0 w-[500px] p-4 rounded flex flex-col justify-between shadow-2xl">
                 <p className="text-center text-lg font-semibold">
                   "Platform yang user-friendly dan support yang cepat. SiTix
                   benar-benar memudahkan saya dalam mengelola event saya."
@@ -309,7 +309,7 @@ const AboutUs = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-white border-medium border-blue-700 flex-shrink-0 w-[500px] p-4 rounded flex flex-col justify-between">
+              <div className="bg-white border-medium border-blue-700 flex-shrink-0 w-[500px] p-4 rounded flex flex-col justify-between shadow-2xl">
                 <p className="text-center text-lg font-semibold">
                   " SiTix membantu saya mendapatkan lebih banyak peserta untuk
                   event saya. Sistemnya gampang dipahami dan performanya
@@ -329,7 +329,7 @@ const AboutUs = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-blue-500 flex-shrink-0 w-[500px] p-4 rounded flex flex-col justify-between">
+              <div className="bg-blue-500 flex-shrink-0 w-[500px] p-4 rounded flex flex-col justify-between shadow-2xl">
                 <p className="text-center text-lg font-semibold">
                   "Kalau mau sukses dengan event online, SiTix adalah solusinya.
                   Saya sangat merekomendasikan platform ini!"
@@ -343,7 +343,7 @@ const AboutUs = () => {
                     style={{ borderRadius: 50 }}
                   />
 
-                  <div className="">
+                  <div className="mt-2">
                     <p className="text-2xl">Josh Due</p>
                     <p className="-mt-4">Senio Manager PT Musik Sakti Indonesia</p>
                   </div>
@@ -363,7 +363,7 @@ const AboutUs = () => {
             ?
           </h1>
           <div>
-            <div className="bg-white ml-64 mt-20 flex flex-row justify-between w-[1500px] rounded-3xl">
+            <div className="bg-white ml-64 mt-20 flex flex-row justify-between w-[1500px] rounded-3xl shadow-lg">
               <div className="pl-10">
                 <h2 className="text-5xl pt-16 ">Creator</h2>
                 <ul className="list-disc text-2xl mt-4">
@@ -389,7 +389,7 @@ const AboutUs = () => {
                 />
               </div>
             </div>
-            <div className="bg-white ml-64 mt-20 flex flex-row justify-between w-[1500px] rounded-3xl">
+            <div className="bg-white ml-64 mt-20 flex flex-row justify-between w-[1500px] rounded-3xl shadow-lg">
               <div className="pl-10">
                 <h2 className="text-5xl pt-16 ">Customer</h2>
                 <ul className="list-disc text-2xl mt-4">
