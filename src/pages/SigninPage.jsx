@@ -93,7 +93,13 @@ const SigninPage = () => {
       );
       localStorage.setItem("token", response.data.data.token)
       console.log(response.data.data)
-      navigate('/')
+      const roleLogin=response.data.data.role.name;
+      if(roleLogin==="CUSTOMER"){
+        navigate('/')
+      }else {
+        alert("Anda Bukan CUSTOMER, Tidak Dapat Login")
+        navigate('/signin');
+      }
     } catch (error) {
       alert("Login gagal. Silakan cek kembali username dan password Anda.");
     } finally {
@@ -110,7 +116,13 @@ const SigninPage = () => {
       );
       localStorage.setItem("token_creator", response.data.data.token)
       console.log(response.data.data)
-      navigate('/creator/dashboard')
+      const roleLogin=response.data.data.role.name;
+      if(roleLogin==="CREATOR"){
+        navigate('/creator/dashboard')
+      }else {
+        alert("Anda Bukan CREATOR, Tidak Dapat Login")
+        navigate('/signin');
+      }
     } catch (error) {
       alert("Login gagal. Silakan cek kembali username dan password Anda.");
     } finally {
@@ -127,7 +139,13 @@ const SigninPage = () => {
       );
       localStorage.setItem("token_admin", response.data.data.token)
       console.log(response.data.data)
-      navigate('/admin/dashboard')
+      const roleLogin=response.data.data.role.name;
+      if(roleLogin==="ADMIN"){
+        navigate('/admin/dashboard')
+      }else {
+        alert("Anda Bukan ADMIN, Tidak Dapat Login")
+        navigate('/signin');
+      }
     } catch (error) {
       alert("Login gagal. Silakan cek kembali username dan password Anda.");
     } finally {

@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../service/constants";
 const ManageCustomer=()=>{
+  const navigate = useNavigate();
   const statusOptions = [
     {name: "Active", uid: "false"},
     {name: "Not Active", uid: "true"}
@@ -63,7 +64,8 @@ const ManageCustomer=()=>{
             const token = localStorage.getItem("token_admin");
     
             if (!token) {
-              throw new Error("Token tidak ditemukan. Harap login terlebih dahulu.");
+              navigate('/signin');
+              return;
             }
             const response=await axios.delete(`${BASE_URL}/api/customer/${id}`, {
                 headers: {
@@ -97,7 +99,8 @@ const ManageCustomer=()=>{
           const token = localStorage.getItem("token_admin");
     
           if (!token) {
-            throw new Error("Token tidak ditemukan. Harap login terlebih dahulu.");
+            navigate('/signin');
+            return;
           }
     
           const response = await axios.get(`${BASE_URL}/api/customer`, {

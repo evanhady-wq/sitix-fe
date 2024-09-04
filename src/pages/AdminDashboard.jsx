@@ -18,7 +18,9 @@ const navigate = useNavigate();
       const token = localStorage.getItem("token_admin");
 
       if (!token) {
-        throw new Error("Token tidak ditemukan. Harap login terlebih dahulu.");
+        // throw new Error("Token tidak ditemukan. Harap login terlebih dahulu.");
+        navigate('/signin');
+        return;
       }
 
       const response = await axios.get(`${BASE_URL}/api/admin`, {

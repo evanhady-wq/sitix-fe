@@ -14,6 +14,7 @@ import axios from "axios";
 import { BASE_URL } from "../service/constants";
 
 const ManageEventCategory=()=>{
+  const navigate = useNavigate();
     const [filterValue, setFilterValue] = useState("");
     const [showModalDelete, setShowModalDelete] = useState(null);
     const [showModalEdit, setShowModalEdit] = useState(null);
@@ -107,7 +108,8 @@ const ManageEventCategory=()=>{
           const token = localStorage.getItem("token_admin");
     
           if (!token) {
-            throw new Error("Token tidak ditemukan. Harap login terlebih dahulu.");
+            navigate('/signin');
+            return;
           }
 
           const response = await axios.get(`${BASE_URL}/api/eventcategory/get`);
@@ -139,7 +141,8 @@ const ManageEventCategory=()=>{
             const token = localStorage.getItem("token_admin");
     
             if (!token) {
-              throw new Error("Token tidak ditemukan. Harap login terlebih dahulu.");
+              navigate('/signin');
+              return;
             }
             const response=await axios.put(`${BASE_URL}/api/eventcategory`, payload, {
                 headers: {
@@ -166,7 +169,8 @@ const ManageEventCategory=()=>{
             const token = localStorage.getItem("token_admin");
     
             if (!token) {
-              throw new Error("Token tidak ditemukan. Harap login terlebih dahulu.");
+              navigate('/signin');
+              return;
             }
             const response=await axios.post(`${BASE_URL}/api/eventcategory`, payload, {
                 headers: {
@@ -195,7 +199,8 @@ const ManageEventCategory=()=>{
             const token = localStorage.getItem("token_admin");
     
             if (!token) {
-              throw new Error("Token tidak ditemukan. Harap login terlebih dahulu.");
+              navigate('/signin');
+              return;
             }
             const response=await axios.delete(`${BASE_URL}/api/eventcategory/${id}`, {
                 headers: {
