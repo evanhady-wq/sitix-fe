@@ -22,6 +22,12 @@ const SigninPage = () => {
     password: "",
   });
   const [creatorErrors, setCreatorErrors] = useState({});
+
+  const [adminValues, setAdminValues] = useState({
+    username: "",
+    password: "",
+  });
+  const [adminErrors, setAdminErrors] = useState({});
   
 
   const handleCustomerChange = (e) => {
@@ -36,6 +42,14 @@ const SigninPage = () => {
     const { name, value } = e.target;
     setCreatorValues({
       ...creatorValues,
+      [name]: value,
+    });
+  };
+
+  const handleAdminChange = (e) => {
+    const { name, value } = e.target;
+    setAdminValues({
+      ...adminValues,
       [name]: value,
     });
   };
@@ -57,6 +71,16 @@ const SigninPage = () => {
     if (creatorValues.password.length < 5)
       errors.password = "Password minimal 5 karakter";
     setCreatorErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const validateAdmin = () => {
+    const errors = {};
+    if (adminValues.username.length < 4)
+      errors.username = "Username minimal 4 karakter";
+    if (adminValues.password.length < 4)
+      errors.password = "Password minimal 4 karakter";
+    setAdminErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
@@ -94,6 +118,23 @@ const SigninPage = () => {
     }
   };
 
+  const loginAdmin = async (values) => {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        `${BASE_URL}/api/auth/login`,
+        values
+      );
+      localStorage.setItem("token_admin", response.data.data.token)
+      console.log(response.data.data)
+      navigate('/admin/dashboard')
+    } catch (error) {
+      alert("Login gagal. Silakan cek kembali username dan password Anda.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleCustomerSubmit = (e) => {
     e.preventDefault();
     if (validateCustomer()) {
@@ -105,6 +146,13 @@ const SigninPage = () => {
     e.preventDefault();
     if (validateCreator()) {
       loginCreator(creatorValues);
+    }
+  };
+
+  const handleAdminSubmit = (e) => {
+    e.preventDefault();
+    if (validateAdmin()) {
+      loginAdmin(adminValues);
     }
   };
 
@@ -208,6 +256,51 @@ const SigninPage = () => {
                         <Button
                           className="bg-custom-blue-2 text-white font-bold text-lg"
                           onClick={handleCreatorSubmit}
+                          disabled={loading}
+                        >
+                          {loading ? "Loading..." : "Lanjutkan"}
+                        </Button>
+                      </CardBody>
+                    </Card>
+                  </Tab>
+                  <Tab title="Admin">
+                    <Card shadow="none">
+                      <CardBody className="">
+                        <p>Username</p>
+                        <Input
+                          name="username"
+                          placeholder="Username Kamu"
+                          size="lg"
+                          value={adminValues.username}
+                          onChange={handleAdminChange}
+                          status={adminErrors.username ? "error" : ""}
+                        />
+                        {adminErrors.username && (
+                          <p className="text-red-500">
+                            {adminErrors.username}
+                          </p>
+                        )}
+                        <p className="pt-4">Password</p>
+                        <Input
+                          name="password"
+                          placeholder="Password"
+                          size="lg"
+                          type="password"
+                          value={adminValues.password}
+                          onChange={handleAdminChange}
+                          status={adminErrors.password ? "error" : ""}
+                        />
+                        {adminErrors.password && (
+                          <p className="text-red-500">
+                            {adminErrors.password}
+                          </p>
+                        )}
+                        <p className=" text-custom-blue-3 pt-4 ">
+                          Lupa Password ?
+                        </p>
+                        <Button
+                          className="bg-custom-blue-2 text-white font-bold text-lg"
+                          onClick={handleAdminSubmit}
                           disabled={loading}
                         >
                           {loading ? "Loading..." : "Lanjutkan"}
