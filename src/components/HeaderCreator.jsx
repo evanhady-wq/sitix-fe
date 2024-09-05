@@ -35,11 +35,11 @@ const HeaderCreator = () => {
                   <VscListSelection color="#1F316F" size={20} />
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu aria-label="Static Actions">
+              <DropdownMenu aria-label="Static Actions" className="-ml-16 -mb-4">
                 <DropdownItem onClick={() => navigate('/creator/dashboard')}>Dashboard</DropdownItem>
                 <DropdownItem onClick={() => navigate('/creator/profile')}>Profile</DropdownItem>
                 <DropdownItem onClick={() => navigate('/creator/create-event')}>Buat Event</DropdownItem>
-                <DropdownItem onClick={() => navigate('/creator/event-saya')}>Event Saya</DropdownItem>
+                <DropdownItem onClick={() => navigate('/creator/myevent')}>Event Saya</DropdownItem>
                 <DropdownItem
                   key="delete"
                   className="text-danger"

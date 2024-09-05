@@ -45,16 +45,16 @@ const EventPage = () => {
   };
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       {loading ? (
-        <p></p>
+        <p>Loading...</p>
       ) : (
         <>
           <Header />
           <div className="flex mt-12 mx-24">
             <div className="w-1/3 flex justify-center ">
               <img
-                src={DummyCard}
+                src={data.poster}
                 className="w-80 h-80 rounded-md object-cover"
               />
             </div>
@@ -81,6 +81,10 @@ const EventPage = () => {
                         year: "numeric",
                       })}
                   </p>
+                  <div className="flex">
+                    <IoLocation color="blue" className="pt-1" />
+                    <p>{event.location}</p>
+                  </div>
                 </div>
                 <div className="bg-slate-200 rounded-xl p-2 h-[60px] w-[250px]">
                   <p className="text-sm mb-1">Waktu Mulai </p>
@@ -91,9 +95,19 @@ const EventPage = () => {
                     })}
                   </p>
                 </div>
-                <div className="bg-slate-200 rounded-xl p-2 h-[60px] w-[250px]">
-                  <p className="text-sm mb-1">Tipe Event</p>
-                  <p className="font-bold text-sm">{event.eventCategory}</p>
+                <div className="items-center justify-around my-4 p-2 w-[770px]">
+                  <p className="font-bold">Description</p>
+                  <p className="text-justify">
+                    {event.description}
+                  </p>
+                  <Button
+                    className="text-white font-bold bg-custom-blue-2 w-[150px]"
+                    onClick={() => {
+                      handleOrderClick(event.id);
+                    }}
+                  >
+                    Beli Tiket Event
+                  </Button>
                 </div>
               </div>
               <div className="items-center justify-around  my-4 p-2 w-[770px]">
@@ -112,10 +126,12 @@ const EventPage = () => {
               </div>
             </div>
           </div>
-          <Footer />
+          <div className="mb-2">
+            <Footer />
+          </div>
         </>
       )}
-    </>
+    </div>
   );
 };
 

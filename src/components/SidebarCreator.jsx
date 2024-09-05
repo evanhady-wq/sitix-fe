@@ -16,17 +16,12 @@ const SidebarCreator = () => {
     try {
       const token = localStorage.getItem("token_creator");
 
-      if (!token) {
-        throw new Error("Token tidak ditemukan. Harap login terlebih dahulu.");
-      }
-
       const response = await axios.get(`${BASE_URL}/api/creator/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setCreator(response.data.data);
-      console.log(response.data.data)
     } catch (error) {
       setError(`Failed to fetch creator profile: ${error.message}`);
      
@@ -38,6 +33,7 @@ const SidebarCreator = () => {
   useEffect(() => {
     fetchCreator();
   }, []);
+  
   return (
     <>
       <Sidebar
@@ -53,7 +49,7 @@ const SidebarCreator = () => {
         <Menu className="text-white">
           <p className="font-bold pl-4 pt-4">SiTix Creator</p>
           <div className="flex gap-2 pl-4 mx-2 mb-4 border-1 items-center rounded-xl h-16">
-            <img src={Dummyimage} className="w-10 h-10 rounded-full" />
+            <img src={creator.profilePicture} className="w-10 h-10 rounded-full" />
             <div className="pt-2">
               <p className="text-sm mb-0">{creator.name}</p>
               <p className="text-sm font-bold">Creator</p>
@@ -79,7 +75,7 @@ const SidebarCreator = () => {
           </MenuItem>
           <MenuItem
             className="hover:text-custom-blue-3"
-            component={<Link to="/creator/event-saya" />}
+            component={<Link to="/creator/myevent" />}
           >
             My Event
           </MenuItem>

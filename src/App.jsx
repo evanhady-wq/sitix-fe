@@ -8,11 +8,15 @@ import OrderPage from "./pages/OrderPage";
 import CreatorDashboard from "./pages/CreatorDashboard";
 import CreatorProfile from "./pages/CreatorProfile";
 import CreatorCreateEvent from "./pages/CreatorCreateEvent";
-import CreatorEventSaya from "./pages/CreatorEventSaya";
 import AdminDashboard from "./pages/AdminDashboard";
 import ManageCustomer from "./pages/ManageCustomer";
 import ManageCreator from "./pages/ManageCreator";
 import ManageEventCategory from "./pages/ManageEventCategory";
+import AboutUs from "./pages/AboutUs";
+import TermAndCondition from "./pages/TermAndCondition";
+import CreatorMyEvent from "./pages/CreatorMyEvent";
+
+
 
 function App() {
   return (
@@ -27,11 +31,17 @@ function App() {
         <Route path="/creator/dashboard" element={<CreatorDashboard />} />
         <Route path="/creator/profile" element={<CreatorProfile />} />
         <Route path="/creator/create-event" element={<CreatorCreateEvent />} />
-        <Route path="/creator/event-saya" element={<CreatorEventSaya />} />
+
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/customers" element={<ManageCustomer />} />
         <Route path="/admin/creators" element={<ManageCreator />} />
         <Route path="/admin/eventcategory" element={<ManageEventCategory />} />
+
+        <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="/term" element={<TermAndCondition />} />
+        <Route path="/creator/myevent" element={<CreatorMyEvent />} />
+
+
       </Routes>
     </>
   );
