@@ -54,7 +54,7 @@ const EventPage = () => {
           <div className="flex mt-12 mx-24">
             <div className="w-1/3 flex justify-center ">
               <img
-                src={DummyCard}
+                src={data.poster}
                 className="w-80 h-80 rounded-md object-cover"
               />
             </div>

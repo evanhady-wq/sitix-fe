@@ -42,7 +42,7 @@ const EventCard = () => {
                 }}
               >
                 <img
-                  src={DummyCard}
+                  src={event.poster}
                   className="w-full h-48 rounded-md object-cover"
                   alt="Event"
                 />

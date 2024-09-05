@@ -8,7 +8,7 @@ import OrderPage from "./pages/OrderPage";
 import CreatorDashboard from "./pages/CreatorDashboard";
 import CreatorProfile from "./pages/CreatorProfile";
 import CreatorCreateEvent from "./pages/CreatorCreateEvent";
-import CreatorEventSaya from "./pages/CreatorEventSaya";
+import CreatorMyEvent from "./pages/CreatorMyEvent";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
         <Route path="/creator/dashboard" element={<CreatorDashboard />} />
         <Route path="/creator/profile" element={<CreatorProfile />} />
         <Route path="/creator/create-event" element={<CreatorCreateEvent />} />
-        <Route path="/creator/event-saya" element={<CreatorEventSaya />} />
+        <Route path="/creator/myevent" element={<CreatorMyEvent />} />
       </Routes>
     </>
   );
