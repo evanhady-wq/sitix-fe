@@ -105,6 +105,7 @@ const ManageEventCategory=()=>{
       }, []);
       const fetchData = async () => {
         try {
+          setLoading(true);
           const token = localStorage.getItem("token_admin");
     
           if (!token) {
@@ -113,12 +114,6 @@ const ManageEventCategory=()=>{
           }
 
           const response = await axios.get(`${BASE_URL}/api/eventcategory/get`);
-    
-        //   const response = await axios.get(`${BASE_URL}/api/eventcategory`, {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   });
           setEventCategory(response.data.data);
           console.log(response.data.data);
         } catch (error) {
@@ -321,6 +316,19 @@ const ManageEventCategory=()=>{
                   <h3 className="text-xl font-semibold">
                     Tambah Event Category
                   </h3>
+                  <button
+          className="ml-auto bg-transparent border-0 text-black float-right"
+          onClick={() => {
+            setShowModalAdd(false);
+            setCategoryValues({
+                categoryName: ""
+              });
+        }}
+        >
+          <span className="text-gray-500 opacity-7 h-6 w-6 text-xl block outline-none focus:outline-none">
+            &times;
+          </span>
+        </button>
                 </div>
                 {/*body*/}
                 <div className="relative p-4 flex-auto">
@@ -379,6 +387,17 @@ const ManageEventCategory=()=>{
                   <h3 className="text-xl font-semibold">
                     Edit Event Category
                   </h3>
+                  <button
+          className="ml-auto bg-transparent border-0 text-black float-right"
+          onClick={() => {
+            setShowModalEdit(false);
+            setCategoryValuesEdit("");
+        }}
+        >
+          <span className="text-gray-500 opacity-7 h-6 w-6 text-xl block outline-none focus:outline-none">
+            &times;
+          </span>
+        </button>
                 </div>
                 {/*body*/}
                 <div className="relative p-4 flex-auto">
@@ -443,6 +462,14 @@ const ManageEventCategory=()=>{
                   <h3 className="text-xl font-semibold">
                     Hapus Event Category
                   </h3>
+                  <button
+          className="ml-auto bg-transparent border-0 text-black float-right"
+          onClick={() => setShowModalDelete(false)}
+        >
+          <span className="text-gray-500 opacity-7 h-6 w-6 text-xl block outline-none focus:outline-none">
+            &times;
+          </span>
+        </button>
                 </div>
                 {/*body*/}
                 <div className="relative p-4 flex-auto">

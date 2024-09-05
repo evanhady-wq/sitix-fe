@@ -66,6 +66,7 @@ const ManageCreator=()=>{
       }, []);
       const fetchData = async () => {
         try {
+          setLoading(true);
           const token = localStorage.getItem("token_admin");
     
           if (!token) {
@@ -241,6 +242,14 @@ const ManageCreator=()=>{
                   <h3 className="text-xl font-semibold">
                     Hapus Creator
                   </h3>
+                  <button
+          className="ml-auto bg-transparent border-0 text-black float-right"
+          onClick={() => setShowModal(false)}
+        >
+          <span className="text-gray-500 opacity-7 h-6 w-6 text-xl block outline-none focus:outline-none">
+            &times;
+          </span>
+        </button>
                 </div>
                 {/*body*/}
                 <div className="relative p-4 flex-auto">

@@ -5,8 +5,10 @@ import { FaFacebookSquare, FaInstagram, FaTwitterSquare } from "react-icons/fa";
 import { CiYoutube } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../service/constants";
 const SidebarAdmin=()=>{
+  const navigate = useNavigate();
 const [admin, setAdmin] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,7 +17,8 @@ const [admin, setAdmin] = useState([]);
       const token = localStorage.getItem("token_admin");
 
       if (!token) {
-        throw new Error("Token tidak ditemukan. Harap login terlebih dahulu.");
+        navigate("/signin");
+        return;
       }
 
       const response = await axios.get(`${BASE_URL}/api/admin`, {
@@ -26,7 +29,7 @@ const [admin, setAdmin] = useState([]);
       setAdmin(response.data.data);
       console.log(response.data.data)
     } catch (error) {
-      setError(`Failed to fetch creator profile: ${error.message}`);
+      setError(`Failed to fetch admin profile: ${error.message}`);
      
     } finally {
       setLoading(false);
