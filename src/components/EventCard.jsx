@@ -4,40 +4,25 @@ import DummyCard from "../assets/DummyCard.jpeg";
 import { IoLocation } from "react-icons/io5";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../service/constants";
+import useAxios from "../hooks/useAxios";
 
 const EventCard = ({searchTerm}) => {
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const fetchEvents = async () => {
-    try {
-      // const token = localStorage.getItem("token");
-
-      // if (!token) {
-      //   throw new Error("Token tidak ditemukan. Harap login terlebih dahulu.");
-      // }
-
-      const response = await axios.get("http://10.10.102.144:8080/api/event/allevent"
-      );
-      
-      setEvents(response.data.data);
-      console.log(response.data.data);
-    } catch (error) {
-      console.error("Failed to fetch events:", error);
-      setError("Failed to fetch events");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data, error: fetchError, loading: isLoading, refetch } = useAxios(
+    `${BASE_URL}/api/event/allevent`,
+    "GET",
+    null 
+  );
 
   useEffect(() => {
-    fetchEvents();
-    
-  }, []);
+    if (data) {
+      setEvents(data); 
+    }
+  }, [data]);
   
-
   const handleCardClick = (eventid) => {
     navigate(`/event/${eventid}`);
   };
@@ -69,7 +54,7 @@ const EventCard = ({searchTerm}) => {
                 <div className="pt-3 flex">
                   <IoLocation color="blue" />
                   <p className="text-xs text-gray-500 ml-1 truncate">
-                    {event.location}
+                    {event.city}
                   </p>
                 </div>
                 <p className="font-bold text-sm mb-0 truncate">{event.name}</p>

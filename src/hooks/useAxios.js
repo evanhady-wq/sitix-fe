@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 const useAxios = (url, method, token) => {
@@ -6,33 +6,34 @@ const useAxios = (url, method, token) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
 
-      try {
-        const headers = token
-          ? { Authorization: `Bearer ${token}` }
-          : {};
+    try {
+      const headers = token
+        ? { Authorization: `Bearer ${token}` }
+        : {};
 
-        const response = await axios({
-          method,
-          url,
-          headers,
-        });
+      const response = await axios({
+        method,
+        url,
+        headers,
+      });
 
-        setData(response.data.data);
-      } catch (err) {
-        setError(`Failed to fetch data: ${err.message}`);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+      setData(response.data.data);
+    } catch (err) {
+      setError(`Failed to fetch data: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
   }, [url, method, token]);
 
-  return { data, error, loading };
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  return { data, error, loading, refetch: fetchData };
 };
 
 export default useAxios;
