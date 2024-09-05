@@ -22,6 +22,12 @@ const SigninPage = () => {
     password: "",
   });
   const [creatorErrors, setCreatorErrors] = useState({});
+
+  const [adminValues, setAdminValues] = useState({
+    username: "",
+    password: "",
+  });
+  const [adminErrors, setAdminErrors] = useState({});
   
 
   const handleCustomerChange = (e) => {
@@ -36,6 +42,14 @@ const SigninPage = () => {
     const { name, value } = e.target;
     setCreatorValues({
       ...creatorValues,
+      [name]: value,
+    });
+  };
+
+  const handleAdminChange = (e) => {
+    const { name, value } = e.target;
+    setAdminValues({
+      ...adminValues,
       [name]: value,
     });
   };
@@ -60,6 +74,16 @@ const SigninPage = () => {
     return Object.keys(errors).length === 0;
   };
 
+  const validateAdmin = () => {
+    const errors = {};
+    if (adminValues.username.length < 4)
+      errors.username = "Username minimal 4 karakter";
+    if (adminValues.password.length < 4)
+      errors.password = "Password minimal 4 karakter";
+    setAdminErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const loginCustomer = async (values) => {
     try {
       setLoading(true);
@@ -69,7 +93,13 @@ const SigninPage = () => {
       );
       localStorage.setItem("token", response.data.data.token)
       console.log(response.data.data)
-      navigate('/')
+      const roleLogin=response.data.data.role.name;
+      if(roleLogin==="CUSTOMER"){
+        navigate('/')
+      }else {
+        alert("Anda Bukan CUSTOMER, Tidak Dapat Login")
+        navigate('/signin');
+      }
     } catch (error) {
       alert("Login gagal. Silakan cek kembali username dan password Anda.");
     } finally {
@@ -86,7 +116,36 @@ const SigninPage = () => {
       );
       localStorage.setItem("token_creator", response.data.data.token)
       console.log(response.data.data)
-      navigate('/creator/dashboard')
+      const roleLogin=response.data.data.role.name;
+      if(roleLogin==="CREATOR"){
+        navigate('/creator/dashboard')
+      }else {
+        alert("Anda Bukan CREATOR, Tidak Dapat Login")
+        navigate('/signin');
+      }
+    } catch (error) {
+      alert("Login gagal. Silakan cek kembali username dan password Anda.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loginAdmin = async (values) => {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        `${BASE_URL}/api/auth/login`,
+        values
+      );
+      localStorage.setItem("token_admin", response.data.data.token)
+      console.log(response.data.data)
+      const roleLogin=response.data.data.role.name;
+      if(roleLogin==="ADMIN"){
+        navigate('/admin/dashboard')
+      }else {
+        alert("Anda Bukan ADMIN, Tidak Dapat Login")
+        navigate('/signin');
+      }
     } catch (error) {
       alert("Login gagal. Silakan cek kembali username dan password Anda.");
     } finally {
@@ -105,6 +164,13 @@ const SigninPage = () => {
     e.preventDefault();
     if (validateCreator()) {
       loginCreator(creatorValues);
+    }
+  };
+
+  const handleAdminSubmit = (e) => {
+    e.preventDefault();
+    if (validateAdmin()) {
+      loginAdmin(adminValues);
     }
   };
 
@@ -208,6 +274,51 @@ const SigninPage = () => {
                         <Button
                           className="bg-custom-blue-2 text-white font-bold text-lg"
                           onClick={handleCreatorSubmit}
+                          disabled={loading}
+                        >
+                          {loading ? "Loading..." : "Lanjutkan"}
+                        </Button>
+                      </CardBody>
+                    </Card>
+                  </Tab>
+                  <Tab title="Admin">
+                    <Card shadow="none">
+                      <CardBody className="">
+                        <p>Username</p>
+                        <Input
+                          name="username"
+                          placeholder="Username Kamu"
+                          size="lg"
+                          value={adminValues.username}
+                          onChange={handleAdminChange}
+                          status={adminErrors.username ? "error" : ""}
+                        />
+                        {adminErrors.username && (
+                          <p className="text-red-500">
+                            {adminErrors.username}
+                          </p>
+                        )}
+                        <p className="pt-4">Password</p>
+                        <Input
+                          name="password"
+                          placeholder="Password"
+                          size="lg"
+                          type="password"
+                          value={adminValues.password}
+                          onChange={handleAdminChange}
+                          status={adminErrors.password ? "error" : ""}
+                        />
+                        {adminErrors.password && (
+                          <p className="text-red-500">
+                            {adminErrors.password}
+                          </p>
+                        )}
+                        <p className=" text-custom-blue-3 pt-4 ">
+                          Lupa Password ?
+                        </p>
+                        <Button
+                          className="bg-custom-blue-2 text-white font-bold text-lg"
+                          onClick={handleAdminSubmit}
                           disabled={loading}
                         >
                           {loading ? "Loading..." : "Lanjutkan"}
