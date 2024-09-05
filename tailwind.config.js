@@ -11,7 +11,8 @@ export default {
       colors: {
         'custom-blue-1': '#5B99C2',
         'custom-blue-2': '#1A4870',
-        'custom-blue-3': '#1F316F'
+        'custom-blue-3': '#1F316F',
+        'peach': '#F9DBBA'
       }
     },
   },

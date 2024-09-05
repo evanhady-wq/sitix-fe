@@ -17,7 +17,7 @@ const OrderPage = () => {
 
   const fetchEvent = async () => {
     try {
-      const token = localStorage.getItem("token");
+     
 
       if (!token) {
         throw new Error("Token tidak ditemukan !");

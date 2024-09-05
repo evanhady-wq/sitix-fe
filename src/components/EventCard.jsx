@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../service/constants";
 import useAxios from "../hooks/useAxios";
 
-const EventCard = () => {
+const EventCard = ({searchTerm}) => {
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
 
@@ -27,13 +27,18 @@ const EventCard = () => {
     navigate(`/event/${eventid}`);
   };
 
+  const filteredEvents = events.filter((event) =>
+    event.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="mx-16 my-8">
       <div>
-        <p className="font-bold text-xl">Rekomendasi Event</p>
+        <p className="font-bold text-xl text-center">Rekomendasi Event</p>
       </div>
-      <div className="flex flex-wrap gap-4 ">
-        {events.map((event) => (
+      <div className="flex flex-wrap justify-center gap-4 ">
+        {filteredEvents.length > 0 ? (
+        filteredEvents.map((event) => (
           <div key={event.id} className="w-48">
             <Card className="w-[200px] cursor-pointer">
               <CardBody
@@ -67,7 +72,10 @@ const EventCard = () => {
               </CardBody>
             </Card>
           </div>
-        ))}
+        ))
+      ) : (
+        <p>Event yang kamu cari gak ada </p>
+      )}
       </div>
     </div>
   );
