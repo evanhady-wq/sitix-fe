@@ -1,47 +1,19 @@
-import { Button, Card, CardBody } from "@nextui-org/react";
+import { Card, CardBody } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { IoLocation } from "react-icons/io5";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../service/constants";
 import useAxios from "../hooks/useAxios";
-import axios from "axios";
 
-const EventCard = ({ searchTerm }) => {
+const UpcomingEvent = () => {
   const [events, setEvents] = useState([]);
-  const [eventCategory, setEventCategory] = useState([]);
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [error, setError] = useState();
-  const [loading, setLoading] = useState(true);
-
   const navigate = useNavigate();
 
   const { data, error: fetchError, loading: isLoading, refetch } = useAxios(
-    `${BASE_URL}/api/event/allevent`,
+    `${BASE_URL}/api/event/allevent/upcoming`,
     "GET",
-    null
+    null 
   );
-
-  const getEventByCategory = async (categoryId) => {
-    try {
-      const response = await axios.get(`${BASE_URL}/api/event/allevent/category/${categoryId}`);
-      setEvents(response.data.data);
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getEventCategory = async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}/api/eventcategory/get`);
-      setEventCategory(response.data.data);
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
     if (data) {
@@ -49,54 +21,18 @@ const EventCard = ({ searchTerm }) => {
     }
   }, [data]);
 
-  useEffect(() => {
-    getEventCategory();
-  }, []);
-
   const handleCardClick = (eventid) => {
     navigate(`/event/${eventid}`);
   };
 
-  const handleCategoryClick = (categoryId) => {
-    setActiveCategory(categoryId);
-    if (categoryId === "all") {
-      refetch();
-    } else {
-      getEventByCategory(categoryId);
-    }
-  };
-
-  const filteredEvents = events.filter((event) =>
-    event.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   return (
     <div className="mx-16 my-8">
       <div>
-        <p className="font-bold text-xl text-center">Rekomendasi Event</p>
+        <p className="font-bold text-xl text-center">Upcoming Event</p>
       </div>
-      <div className="flex flex-row items-center justify-center gap-2 mb-3">
-        <Button
-          size="md"
-          className={activeCategory === "all" ? "bg-custom-blue-1 text-white" : "bg-custom-blue-3 text-white"}
-          onClick={() => handleCategoryClick("all")}
-        >
-          Semua
-        </Button>
-        {eventCategory.map((categoryEvent) => (
-          <Button
-            key={categoryEvent.id}
-            size="md"
-            className={activeCategory === categoryEvent.id ? "bg-custom-blue-1 text-white" : "bg-custom-blue-3 text-white"}
-            onClick={() => handleCategoryClick(categoryEvent.id)}
-          >
-            {categoryEvent.categoryName}
-          </Button>
-        ))}
-      </div>
-      <div className="flex flex-wrap justify-center gap-4 ">
-        {filteredEvents.length > 0 ? (
-          filteredEvents.map((event) => {
+      <div className="flex flex-wrap justify-center gap-4">
+        {events.length > 0 ? (
+          events.map((event) => {
             const isEventOver = new Date(event.date) < new Date();
             return (
               <div key={event.id} className="w-48">
@@ -152,4 +88,4 @@ const EventCard = ({ searchTerm }) => {
   );
 };
 
-export default EventCard;
+export default UpcomingEvent;

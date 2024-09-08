@@ -28,7 +28,7 @@ const Banner = () => {
         ))}
       </div>
 
-      <div className="carousel-inner">
+      <div className="carousel-inner h-[100px] md:h-[550px] ">
         {banners.map((banner, index) => (
           <div
             key={index}
@@ -36,8 +36,8 @@ const Banner = () => {
           >
             <img
               src={banner}
-              className="d-block mx-auto h-64 md:h-96 lg:h-[600px] w-[2000px] object-cover"
-              style={{ objectFit: "cover", height: "auto" }}
+              className="d-block mx-auto md:h-96 lg:h-[600px] w-[2000px] object-cover"
+              style={{ objectFit: "cover" }}
               alt={`Slide ${index + 1}`}
             />
           </div>

@@ -11,7 +11,7 @@ import { BiMailSend } from "react-icons/bi";
 const Footer = () => {
   return (
     <>
-      <div>
+      <div >
         <div className="md:flex justify-around mt-4">
           <div>
             <p className="font-bold">SiTix Corps</p>

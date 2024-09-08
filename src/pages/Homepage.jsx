@@ -4,6 +4,7 @@ import { withLoading } from "../hoc/withLoading";
 import Banner from "../components/Banner";
 import Footer from "../components/Footer";
 import EventCard from "../components/EventCard";
+import UpcomingEvent from "../components/UpcomingEventCard";
 
 function Homepage() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -13,6 +14,7 @@ function Homepage() {
       <Banner />
       <div className="items-center justify-center">
         <EventCard searchTerm={searchTerm}/>
+        <UpcomingEvent searchTerm={searchTerm}/>
       </div>
       <Footer />
     </div>

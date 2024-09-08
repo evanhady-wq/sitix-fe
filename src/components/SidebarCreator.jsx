@@ -49,7 +49,12 @@ const SidebarCreator = () => {
         <Menu className="text-white">
           <p className="font-bold pl-4 pt-4">SiTix Creator</p>
           <div className="flex gap-2 pl-4 mx-2 mb-4 border-1 items-center rounded-xl h-16">
-            <img src={creator.profilePicture} className="w-10 h-10 rounded-full" />
+            {creator.profilePicture ? (
+              <img src={creator.profilePicture} className="w-10 h-10 rounded-full" />
+            ) : (
+              <img src="https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_640.png" />
+            )}
+            
             <div className="pt-2">
               <p className="text-sm mb-0">{creator.name}</p>
               <p className="text-sm font-bold">Creator</p>

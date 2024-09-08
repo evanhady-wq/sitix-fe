@@ -16,7 +16,7 @@ const SigninPage = () => {
     password: "",
   });
   const [customerErrors, setCustomerErrors] = useState({});
-  
+
   const [creatorValues, setCreatorValues] = useState({
     username: "",
     password: "",
@@ -28,7 +28,6 @@ const SigninPage = () => {
     password: "",
   });
   const [adminErrors, setAdminErrors] = useState({});
-  
 
   const handleCustomerChange = (e) => {
     const { name, value } = e.target;
@@ -87,18 +86,15 @@ const SigninPage = () => {
   const loginCustomer = async (values) => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${BASE_URL}/api/auth/login`,
-        values
-      );
-      localStorage.setItem("token", response.data.data.token)
-      console.log(response.data.data)
-      const roleLogin=response.data.data.role.name;
-      if(roleLogin==="CUSTOMER"){
-        navigate('/')
-      }else {
-        alert("Anda Bukan CUSTOMER, Tidak Dapat Login")
-        navigate('/signin');
+      const response = await axios.post(`${BASE_URL}/api/auth/login`, values);
+      localStorage.setItem("token", response.data.data.token);
+      console.log(response.data.data);
+      const roleLogin = response.data.data.role.name;
+      if (roleLogin === "CUSTOMER") {
+        navigate("/");
+      } else {
+        alert("Anda Bukan CUSTOMER, Tidak Dapat Login");
+        navigate("/signin");
       }
     } catch (error) {
       alert("Login gagal. Silakan cek kembali username dan password Anda.");
@@ -110,18 +106,15 @@ const SigninPage = () => {
   const loginCreator = async (values) => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${BASE_URL}/api/auth/login`,
-        values
-      );
-      localStorage.setItem("token_creator", response.data.data.token)
-      console.log(response.data.data)
-      const roleLogin=response.data.data.role.name;
-      if(roleLogin==="CREATOR"){
-        navigate('/creator/dashboard')
-      }else {
-        alert("Anda Bukan CREATOR, Tidak Dapat Login")
-        navigate('/signin');
+      const response = await axios.post(`${BASE_URL}/api/auth/login`, values);
+      localStorage.setItem("token_creator", response.data.data.token);
+      console.log(response.data.data);
+      const roleLogin = response.data.data.role.name;
+      if (roleLogin === "CREATOR") {
+        navigate("/creator/dashboard");
+      } else {
+        alert("Anda Bukan CREATOR, Tidak Dapat Login");
+        navigate("/signin");
       }
     } catch (error) {
       alert("Login gagal. Silakan cek kembali username dan password Anda.");
@@ -133,18 +126,15 @@ const SigninPage = () => {
   const loginAdmin = async (values) => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${BASE_URL}/api/auth/login`,
-        values
-      );
-      localStorage.setItem("token_admin", response.data.data.token)
-      console.log(response.data.data)
-      const roleLogin=response.data.data.role.name;
-      if(roleLogin==="ADMIN"){
-        navigate('/admin/dashboard')
-      }else {
-        alert("Anda Bukan ADMIN, Tidak Dapat Login")
-        navigate('/signin');
+      const response = await axios.post(`${BASE_URL}/api/auth/login`, values);
+      localStorage.setItem("token_admin", response.data.data.token);
+      console.log(response.data.data);
+      const roleLogin = response.data.data.role.name;
+      if (roleLogin === "ADMIN") {
+        navigate("/admin/dashboard");
+      } else {
+        alert("Anda Bukan ADMIN, Tidak Dapat Login");
+        navigate("/signin");
       }
     } catch (error) {
       alert("Login gagal. Silakan cek kembali username dan password Anda.");
@@ -223,9 +213,15 @@ const SigninPage = () => {
                             {customerErrors.password}
                           </p>
                         )}
-                        <p className="font-bold text-custom-blue-3 pt-4">
-                          Lupa Password ?
-                        </p>
+                        <span className="font-bold text-custom-blue-3 pt-4">
+                          <p
+                            onClick={() => navigate("/recovery")}
+                            className="cursor-pointer"
+                          >
+                            Lupa Password?
+                          </p>
+                        </span>
+
                         <Button
                           className="bg-custom-blue-2 text-white font-bold text-lg"
                           onClick={handleCustomerSubmit}
@@ -268,9 +264,15 @@ const SigninPage = () => {
                             {creatorErrors.password}
                           </p>
                         )}
-                        <p className=" text-custom-blue-3 pt-4 ">
-                          Lupa Password ?
-                        </p>
+                        <span className="font-bold text-custom-blue-3 pt-4">
+                          <p
+                            onClick={() => navigate("/recovery")}
+                            className="cursor-pointer"
+                          >
+                            Lupa Password?
+                          </p>
+                        </span>
+
                         <Button
                           className="bg-custom-blue-2 text-white font-bold text-lg"
                           onClick={handleCreatorSubmit}
@@ -294,9 +296,7 @@ const SigninPage = () => {
                           status={adminErrors.username ? "error" : ""}
                         />
                         {adminErrors.username && (
-                          <p className="text-red-500">
-                            {adminErrors.username}
-                          </p>
+                          <p className="text-red-500">{adminErrors.username}</p>
                         )}
                         <p className="pt-4">Password</p>
                         <Input
@@ -309,13 +309,18 @@ const SigninPage = () => {
                           status={adminErrors.password ? "error" : ""}
                         />
                         {adminErrors.password && (
-                          <p className="text-red-500">
-                            {adminErrors.password}
-                          </p>
+                          <p className="text-red-500">{adminErrors.password}</p>
                         )}
-                        <p className=" text-custom-blue-3 pt-4 ">
-                          Lupa Password ?
-                        </p>
+
+                        <span className="font-bold text-custom-blue-3 pt-4">
+                          <p
+                            onClick={() => navigate("/recovery")}
+                            className="cursor-pointer"
+                          >
+                            Lupa Password?
+                          </p>
+                        </span>
+
                         <Button
                           className="bg-custom-blue-2 text-white font-bold text-lg"
                           onClick={handleAdminSubmit}

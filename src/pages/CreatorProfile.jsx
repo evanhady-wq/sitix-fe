@@ -38,7 +38,7 @@ const CreatorProfile = () => {
         name: resProfile.name,
         phone: resProfile.phone,
         introduction: resProfile.introduction,
-        profilePicture: resProfile.profilePicture
+        profilePicture: resProfile.profilePicture,
       });
     } catch (error) {
       setError(error);
@@ -74,17 +74,18 @@ const CreatorProfile = () => {
       const formDataPicture = new FormData();
       formDataPicture.append("profile", profilePicture);
 
-      const resProfilePicture = await axios.post(`${BASE_URL}/api/creator/profilepicture`, 
+      const resProfilePicture = await axios.post(
+        `${BASE_URL}/api/creator/profilepicture`,
         formDataPicture,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
-      )
-      localStorage.setItem("path", resProfilePicture.data.data.path)
-      const pathValue = localStorage.getItem("path")
+      );
+      localStorage.setItem("path", resProfilePicture.data.data.path);
+      const pathValue = localStorage.getItem("path");
       setFormData((prevFormData) => ({
         ...prevFormData,
         profilePicture: pathValue,
@@ -122,11 +123,19 @@ const CreatorProfile = () => {
 
                 <div className="md:flex gap-4">
                   <div className="h-[250px] md:w-[200px] mb-3 md:mb-0">
-                    <img
-                      src={profile.profilePicture}
-                      alt="ProfilePic"
-                      className="w-full h-full object-cover rounded-xl"
-                    />
+                    {profile.profilePicture ? (
+                      <img
+                        src={profile.profilePicture}
+                        alt="Profile Picture"
+                        className="w-full h-full object-cover rounded-xl"
+                      />
+                    ) : (
+                      <img
+                        src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png"
+                        alt="Default Avatar"
+                        className="w-full h-full object-cover rounded-xl"
+                      />
+                    )}
                   </div>
 
                   <div className="space-y-2 md:space-y-4">

@@ -25,7 +25,7 @@ function HeaderWithoutInput() {
     <>
       <header className="sticky top-0 w-full bg-white border-b border-gray-200 z-50">
         <div className="mx-auto px-4 py-2 flex items-center justify-between">
-          <a href="/" className="no-underline pl-[1000px]" >
+          <a href="/" className="no-underline pl-[850px]" >
             <div className="text-custom-blue-3 font-bold text-6xl text-center w-full">
               Si
               <span className="text-custom-blue-1">Tix</span>

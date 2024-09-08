@@ -79,7 +79,9 @@ const SignupPage = () => {
     if (!creatorValues.creatorName)
       errors.creatorName = "Nama creator harus diisi";
     if (creatorValues.phone.length < 11)
-      errors.phone = "Nomor telepon harus minimal 11 karakter"; 
+      errors.phone = "Nomor telepon harus minimal 11 karakter";
+    if (creatorValues.introduction.length < 20)
+      errors.introduction = "Introduction harus minimal 20 karakter" 
     setCreatorErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -134,7 +136,7 @@ const SignupPage = () => {
     <>
       <HeaderLogo />
       <div className="flex px-4 justify-center gap-8 h-screen">
-        <div className="hidden md:flex">
+        <div className="hidden md:flex items-center">
           <img
             src={LogoDummy}
             className="w-[500px] h-[550px]"
@@ -146,8 +148,11 @@ const SignupPage = () => {
             <CardBody>
               <h1 className="font-bold text-2xl">Daftar</h1>
               <p className="text-md text-gray-600">
-                Silahkan buat akun SiTix kamu, atau klik Masuk Sekarang untuk
-                masuk ke akun SiTix kamu
+                Silahkan buat akun SiTix kamu, atau klik {" "} 
+                <span className="font-bold text-custom-blue-2 cursor-pointer"
+                onClick={() => navigate('/signin')}
+                >Masuk Sekarang </span> 
+                untuk masuk ke akun SiTix kamu
               </p>
               <div className="font-semibold">
                 <Tabs size="lg" variant="underlined">
@@ -292,7 +297,7 @@ const SignupPage = () => {
                           </p>
                         )}
 
-                        <p>Full Name</p>
+                        <p>Creator Name</p>
                         <Input
                           name="creatorName"
                           placeholder="Full Name"

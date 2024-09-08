@@ -15,6 +15,10 @@ import ManageEventCategory from "./pages/ManageEventCategory";
 import AboutUs from "./pages/AboutUs";
 import TermAndCondition from "./pages/TermAndCondition";
 import CreatorMyEvent from "./pages/CreatorMyEvent";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPage from "./pages/ResetPage";
+import MyTransactionPage from "./pages/MyTransactionPage";
+import PageNotFound from "./pages/PageNotFound";
 
 
 
@@ -27,6 +31,9 @@ function App() {
         <Route path="/signin" element={<SigninPage />} />
         <Route path="/event/:eventid" element={<EventPage />} />
         <Route path="/event/order/:eventid" element={<OrderPage />} />
+        <Route path="/mytransaction" element={<MyTransactionPage/>} />
+        <Route path="/recovery" element={<ForgotPasswordPage />} />
+        <Route path="/reset" element={<ResetPage />} />
 
         <Route path="/creator/dashboard" element={<CreatorDashboard />} />
         <Route path="/creator/profile" element={<CreatorProfile />} />
@@ -41,6 +48,7 @@ function App() {
         <Route path="/term" element={<TermAndCondition />} />
         <Route path="/creator/myevent" element={<CreatorMyEvent />} />
 
+        <Route path="*" element={<PageNotFound />} />
 
       </Routes>
     </>
