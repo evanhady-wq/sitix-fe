@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Sidebar, Menu, MenuItem, sidebarClasses } from "react-pro-sidebar";
-import Dummyimage from "../assets/DummyCard.jpeg";
 import { FaFacebookSquare, FaInstagram, FaTwitterSquare } from "react-icons/fa";
 import { CiYoutube } from "react-icons/ci";
 import { Link } from "react-router-dom";
@@ -86,15 +85,19 @@ const SidebarCreator = () => {
             My Event
           </MenuItem>
 
-          <div className="pl-4 mt-4 ">
-            <p className="font-bold mb-2">About Us</p>
-            <p className="font-bold mb-3">Term & Conditions</p>
-            <div className="flex gap-2">
-              <FaInstagram />
-              <FaFacebookSquare />
-              <FaTwitterSquare />
-              <CiYoutube />
-            </div>
+          <div className="mt-4">
+            <MenuItem
+              className="hover:text-custom-blue-3"
+              component={<Link to="/aboutus" />}
+            >
+              <p className="font-bold mb-2">About Us</p>
+            </MenuItem>
+            <MenuItem
+              className="hover:text-custom-blue-3"
+              component={<Link to="/term" />}
+            >
+              <p className="font-bold mb-2">Term & Conditions</p>
+            </MenuItem>
           </div>
         </Menu>
       </Sidebar>

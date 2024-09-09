@@ -17,19 +17,19 @@ const TermAndCondition = () => {
           <div className="text-custom-blue-3 font-bold text-7xl -ml-4">
             Si
             <span className="text-custom-blue-1">Tix</span>
-            <span className="text-blue-1000 text-lg ml-5">
+            <span className="text-blue-1000 text-lg ml-5 hidden md:inline">
               Keep it simple and proper
             </span>
           </div>
         </a>
       </div>
-      <div className="flex flex-col mt-12 pl-[150px] pt-4 bg-slate-300/20 h-auto items-center">
+      <div className="flex flex-col mt-12 pt-4 bg-slate-300/20 h-auto items-center">
         <div className="flex flex-row gap-6">
           <BiFile size={50} />
           <h1>Syarat dan Ketentuan</h1>
         </div>
 
-        <div className="mt-11 bg-white w-[1800px] mb-10 pl-4 pt-4 pr-4 pb-6 rounded-[20px] font-semi">
+        <div className="mt-11 bg-white md:w-[1500px] mb-10 pl-4 pt-4 pr-4 pb-6 rounded-[20px] font-semi">
           <h4 className="font-semibold">Syarat dan ketentuan</h4>
           <p className="text-lg">
             Kepada Creator dan Customer yang kami hormati
