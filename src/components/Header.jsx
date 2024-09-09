@@ -13,14 +13,10 @@ function Header({ setSearchTerm }) {
   const isLoggedIn = !!token || !!tokenCreator;
 
   const handleSignOut = () => {
-    const confirmLogout = window.confirm("Log out?");
-
-    if (confirmLogout) {
       localStorage.removeItem("token");
       localStorage.removeItem("token_creator");
 
       navigate("/signin");
-    }
   };
 
   const handleMyTransaction = () => {

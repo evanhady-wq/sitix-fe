@@ -13,11 +13,13 @@ import {
 import { useNavigate } from "react-router-dom";
 import { withLoading } from "../hoc/withLoading";
 import { BASE_URL } from "../service/constants";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 
 const SignupPage = () => {
   const navigate = useNavigate();
-
+  const [isVisible, setIsVisible] = useState(false);
+  const toggleVisibility = () => setIsVisible(!isVisible);
   const [customerValues, setCustomerValues] = useState({
     email: "",
     password: "",
@@ -61,9 +63,9 @@ const SignupPage = () => {
     if (customerValues.username.length < 6)
       errors.username = "Username harus minimal 6 karakter";
     if (customerValues.phone.length < 11)
-      errors.phone = "Nomor telepon harus minimal 11 karakter";
-    if (customerValues.fullname.length < 3)
-      errors.fullname = "Fullname minimal 3 karakter";
+    errors.phone = "Nomor telepon tidak valid";
+    if (!customerValues.fullname)
+      errors.fullname = "Full Name harus diisi";
     setCustomerErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -79,7 +81,7 @@ const SignupPage = () => {
     if (!creatorValues.creatorName)
       errors.creatorName = "Nama creator harus diisi";
     if (creatorValues.phone.length < 11)
-      errors.phone = "Nomor telepon harus minimal 11 karakter";
+      errors.phone = "Nomor telepon tidak valid";
     if (creatorValues.introduction.length < 20)
       errors.introduction = "Introduction harus minimal 20 karakter" 
     setCreatorErrors(errors);
@@ -143,13 +145,13 @@ const SignupPage = () => {
             alt="Logo Dummy"
           />
         </div>
-        <div className="pt-8 md:pt-26 w-[500px]">
+        <div className="pt-8 md:pt-26 w-[600px]">
           <Card>
             <CardBody>
               <h1 className="font-bold text-2xl">Daftar</h1>
               <p className="text-md text-gray-600">
                 Silahkan buat akun SiTix kamu, atau klik {" "} 
-                <span className="font-bold text-custom-blue-2 cursor-pointer"
+                <span className="font-bold underline text-custom-blue-2 cursor-pointer"
                 onClick={() => navigate('/signin')}
                 >Masuk Sekarang </span> 
                 untuk masuk ke akun SiTix kamu
@@ -177,10 +179,19 @@ const SignupPage = () => {
                           name="password"
                           placeholder="Password"
                           size="lg"
-                          type="password"
                           value={customerValues.password}
                           onChange={handleCustomerChange}
                           status={customerErrors.password ? "error" : ""}
+                          type={isVisible ? "text" : "password"}
+                          endContent={
+                            <button className="focus:outline-none" type="button" onClick={toggleVisibility} aria-label="toggle password visibility">
+                              {isVisible ? (
+                                <FaEye className="text-2xl text-default-400 pointer-events-none" />
+                              ) : (
+                                <FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+                              )}
+                            </button>
+                          }
                         />
                         {customerErrors.password && (
                           <p className="text-red-500">
@@ -271,10 +282,19 @@ const SignupPage = () => {
                           name="creatorPassword"
                           placeholder="Password"
                           size="lg"
-                          type="password"
                           value={creatorValues.creatorPassword}
                           onChange={handleCreatorChange}
                           status={creatorErrors.creatorPassword ? "error" : ""}
+                          type={isVisible ? "text" : "password"}
+                          endContent={
+                            <button className="focus:outline-none" type="button" onClick={toggleVisibility} aria-label="toggle password visibility">
+                              {isVisible ? (
+                                <FaEye className="text-2xl text-default-400 pointer-events-none" />
+                              ) : (
+                                <FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+                              )}
+                            </button>
+                          }
                         />
                         {creatorErrors.creatorPassword && (
                           <p className="text-red-500">

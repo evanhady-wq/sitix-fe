@@ -26,7 +26,7 @@ const UpcomingEvent = () => {
   };
 
   return (
-    <div className="mx-16 my-8">
+    <div className="mx-16 my-8 hidden md:inline">
       <div>
         <p className="font-bold text-xl text-center">Upcoming Event</p>
       </div>

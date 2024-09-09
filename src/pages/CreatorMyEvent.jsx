@@ -240,19 +240,21 @@ const CreatorMyEvent = () => {
               <p className="font-bold">Event Saya</p>
 
               <div className="flex justify-center md:justify-starts">
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 justify-center">
                   {events.map((events) => (
                     <div key={events.id}>
-                      <Card className="md:w-[190px]">
+                      <Card className="w-[350px] md:w-[190px]">
                         <CardBody>
+                        <div className="flex md:flex-col gap-2">
                           <div>
                             <img
                               src={events.poster}
-                              className="w-full h-24 md:h-48 rounded-md object-cover"
+                              className="w-full h-28 md:h-48 rounded-md object-cover"
                               alt="Event"
                             />
                           </div>
-                          <div className="pt-3 flex">
+                          <div>
+                            <div className="md:pt-3 flex">
                             <IoLocation color="blue" />
                             <p className="text-xs text-gray-500 ml-1 mb-0 truncate">
                               {events.city}
@@ -264,7 +266,8 @@ const CreatorMyEvent = () => {
                           </p>
                           <p className="text-xs mb-0">
                             {" "}
-                            Date : {new Date(events.date).toLocaleDateString()}
+                            Date :{" "}
+                            {new Date(events.date).toLocaleDateString()}
                           </p>
                           <p className="text-xs mb-2">
                             Creator : {events.creatorName}
@@ -274,6 +277,8 @@ const CreatorMyEvent = () => {
                               ? `Rp. ${events.ticketCategories[0].price.toLocaleString()}`
                               : "Price not available"}
                           </p>
+                          </div>
+                          </div>
                           <div className="">
                             <Button
                               className="w-full bg-custom-blue-2 text-white font-bold"
@@ -297,7 +302,7 @@ const CreatorMyEvent = () => {
                   <>
                     <ModalBody>
                       <p className="mb-0 font-bold">Update Event</p>
-                      <div className="flex space-x-4">
+                      <div className="flex flex-col md:flex-row space-x-4">
                         <div className="space-y-2">
                           <div className="flex items-center pl-2 space-x-4">
                             <img

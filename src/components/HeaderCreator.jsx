@@ -23,10 +23,10 @@ const HeaderCreator = () => {
 
   return (
     <>
-      <header className="flex items-center sticky top-0 w-full bg-white border-b border-gray-200 z-50">
+      <header className="flex  sticky top-0 w bg-white border-b border-gray-200 z-50 w-full">
         <div
-          className="container mx-0 md:mx-4 py-2 
-        flex items-center justify-start md:justify-between"
+          className="mx-4 md:mx-4 py-2    
+        flex items-center justify-start md:justify-between w-full"
         >
           <div className="inline md:hidden">
             <Dropdown>

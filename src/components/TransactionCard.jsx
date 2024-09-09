@@ -215,11 +215,11 @@ const TransactionCard = () => {
       <div className="w-full max-w-4xl mx-4 my-8">
         <p className="font-bold text-3xl text-center mb-4">Riwayat Transaksi</p>
 
-        <div className="flex items-center mb-4">
+        <div className="flex flex-col md:flex-row md:items-center mb-4 justify-between">
           <Dropdown>
             <DropdownTrigger>
               {selectedStatus == null ? (
-                <Button className="text-white font-bold bg-custom-blue-1 w-40">
+                <Button className="text-white font-bold bg-custom-blue-2 w-full md:w-40">
                   Select Status
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

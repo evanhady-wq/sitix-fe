@@ -13,6 +13,7 @@ import {
   ModalContent,
   useDisclosure,
   TimeInput,
+  Textarea,
 } from "@nextui-org/react";
 import {
   FaMoneyBill1Wave,
@@ -47,6 +48,7 @@ const CreatorCreateEvent = () => {
     poster: "",
     date: "",
     ticketCategories: "",
+    imagePreview: "",
   });
 
   //setDateTime
@@ -104,19 +106,20 @@ const CreatorCreateEvent = () => {
       !formData.city ||
       !formData.address ||
       !formData.linkMap ||
-      !formData.date
+      !formData.date ||
+      !formData.poster ||
+      !ticketCategories
     ) {
-      alert("lengkapi form yang belum diisi");
       return false;
     }
-    console.log("field sudah terisi");
     return true;
   };
 
   //Create New Event
   const handleCreateEvent = async () => {
     try {
-      if (!validateForm()) {
+      if(!validateForm()) {
+        alert('Semua field harus terisi')
         return;
       }
 
@@ -125,7 +128,7 @@ const CreatorCreateEvent = () => {
         ticketCategories,
       };
 
-      console.log(formData);
+      console.log(eventData);
 
       const eventResponse = await axios.post(
         `${BASE_URL}/api/event`,
@@ -183,11 +186,22 @@ const CreatorCreateEvent = () => {
   //Input Change Event
   const handleInputChange = (e) => {
     const { name, value, type, files } = e.target;
-
+    if (type === "file" && files[0]) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [name]: files[0],  
+          imagePreview: reader.result,  
+        }));
+      };
+      reader.readAsDataURL(files[0]); 
+    } else {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: type === "file" ? files[0] : value,
+      [name]: value, 
     }));
+  }
   };
 
   //Add Tiket Kategori
@@ -234,6 +248,8 @@ const CreatorCreateEvent = () => {
   const getFormattedValue = (value) => {
     return formatAngka(value);
   };
+  console.log(ticketCategories)
+  console.log(validateForm())
 
   return (
     <>
@@ -246,14 +262,14 @@ const CreatorCreateEvent = () => {
           <HeaderCreator />
 
           <div className="flex justify-center md:justify-start">
-            <div className="mx-2 mt-4 md:flex md:space-x-4">
+          <div className="px-2 md:mx-2 mt-4 md:flex md:space-x-8 w-full justify-center">
 
             <div
-              className="flex-col w-[300px] md:w-fit bg-custom-blue-1 bg-opacity-80 
+              className="flex-col w-full md:w-1/2 bg-custom-blue-1 bg-opacity-80
               text-white rounded-xl p-3 h-fit"
             >
               <p className="font-bold">Create Event</p>
-              <div className="space-y-1 md:w-[500px] text-right">
+              <div className="space-y-2 md:w-full text-right">
                 <Input
                   label="Nama Event"
                   placeholder="Masukan nama event"
@@ -280,7 +296,7 @@ const CreatorCreateEvent = () => {
                   ))}
                 </Select>
 
-                <div className="md:flex space-y-1 md:space-y-0 gap-2">
+              
                   <Input
                     label="Kota"
                     placeholder="Masukan lokasi kota event"
@@ -295,7 +311,6 @@ const CreatorCreateEvent = () => {
                     value={formData.address}
                     onChange={handleInputChange}
                   />
-                </div>
 
                 <Input
                   label="Link Map"
@@ -320,7 +335,7 @@ const CreatorCreateEvent = () => {
                   />
                 </div>
 
-                <Input
+                <Textarea
                   label="Deskripsi"
                   placeholder="Deskripsi Event"
                   name="description"
@@ -328,37 +343,40 @@ const CreatorCreateEvent = () => {
                   onChange={handleInputChange}
                 />
 
-                <div className="flex items-center gap-2">
-                  <p className="text-sm pt-2">Poster event:</p>
+<div className="flex flex-col md:flex-row items-center md:items-start gap-2 pt-2">
+<p className="text-sm text-center mb-0">Poster event:</p>
                   <Input
                     type="file"
-                    className="w-[200px]"
-                    size="sm"
+                    className="w-[300px]"
                     id="files"
                     name="poster"
                     onChange={handleInputChange}
                   />
+                  {formData.imagePreview && ( // Jika ada gambar, tampilkan elemen img
+                      <img
+                        alt="poster"
+                        src={formData.imagePreview}
+                        className="w-40 h-40 object-cover rounded-xl"
+                      />
+                    )}
                 </div>
 
                 <Button
-                  className="bg-custom-blue-2 text-white font-bold mt-2 mx-2 w-fit"
+                  className="bg-custom-blue-2 text-white font-bold mt-2 md:mx-2 w-full"
                   onClick={handleCreateEvent}
-                  size="sm"
                 >
                   Create
                 </Button>
+                </div>
+              </div>
 
+              <div className="md:w-1/2 overflow-y-auto space-y-2">
                 <Button
-                  className="mt-2 bg-custom-blue-2 font-bold text-white"
+                  className="mt-2 bg-custom-blue-2 font-bold text-white w-full md:w-fit"
                   onPress={onOpen}
-                  size="sm"
                 >
                   Buat Tiket Kategori
                 </Button>
-              </div>
-            </div>
-
-            <div className="bg-white w-[260px] md:w-full overflow-y-auto">
               <p className="font-bold mb-2 text-sm">
                 Kategori Tiket yang Sudah Dibuat:
               </p>

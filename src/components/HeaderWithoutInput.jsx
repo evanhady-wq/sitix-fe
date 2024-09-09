@@ -11,30 +11,25 @@ function HeaderWithoutInput() {
   const isLoggedIn = !!token || !!tokenCreator;
 
   const handleSignOut = () => {
-    const confirmLogout = window.confirm("Log out?");
-
-    if (confirmLogout) {
       localStorage.removeItem("token");
       localStorage.removeItem("token_creator");
 
       navigate("/signin");
-    }
   };
 
   return (
     <>
       <header className="sticky top-0 w-full bg-white border-b border-gray-200 z-50">
-        <div className="mx-auto px-4 py-2 flex items-center justify-between">
-          <a href="/" className="no-underline pl-[850px]" >
-            <div className="text-custom-blue-3 font-bold text-6xl text-center w-full">
-              Si
-              <span className="text-custom-blue-1">Tix</span>
+      <div className="container mx-auto px-4 py-2 flex items-center justify-between">
+          <a href="/" className="no-underline">
+            <div className="text-custom-blue-3 font-bold text-3xl md:text-5xl text-center">
+              Si<span className="text-custom-blue-1">Tix</span>
             </div>
           </a>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 md:space-x-4">
             {isLoggedIn ? (
               <Button
-                className="bg-transparent border-2 border-custom-blue-2 text-custom-blue-2 font-bold text-md hover:bg-black"
+                className="bg-transparent border-2 border-custom-blue-2 text-custom-blue-2 font-bold text-sm md:text-md hover:bg-black"
                 onClick={handleSignOut}
               >
                 Sign Out
@@ -42,7 +37,7 @@ function HeaderWithoutInput() {
             ) : (
               <>
                 <Button
-                  className="bg-transparent border-2 border-custom-blue-2 text-custom-blue-2 font-bold text-md"
+                  className="bg-transparent border-2 border-custom-blue-2 text-custom-blue-2 font-bold text-sm md:text-md"
                   onClick={() => navigate("/signin")}
                 >
                   Sign In

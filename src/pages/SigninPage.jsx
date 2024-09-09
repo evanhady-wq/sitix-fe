@@ -6,8 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { withLoading } from "../hoc/withLoading";
 import { BASE_URL } from "../service/constants";
 import axios from "axios";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const SigninPage = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const toggleVisibility = () => setIsVisible(!isVisible);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -55,8 +58,8 @@ const SigninPage = () => {
 
   const validateCustomer = () => {
     const errors = {};
-    if (customerValues.username.length < 4)
-      errors.username = "Username minimal 4 karakter";
+    if (customerValues.username.length < 6)
+      errors.username = "Username minimal 6 karakter";
     if (customerValues.password.length < 8)
       errors.password = "Password minimal 8 karakter";
     setCustomerErrors(errors);
@@ -67,18 +70,18 @@ const SigninPage = () => {
     const errors = {};
     if (creatorValues.username.length < 6)
       errors.username = "Username minimal 6 karakter";
-    if (creatorValues.password.length < 5)
-      errors.password = "Password minimal 5 karakter";
+    if (creatorValues.password.length < 8)
+      errors.password = "Password minimal 8 karakter";
     setCreatorErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
   const validateAdmin = () => {
     const errors = {};
-    if (adminValues.username.length < 4)
-      errors.username = "Username minimal 4 karakter";
-    if (adminValues.password.length < 4)
-      errors.password = "Password minimal 4 karakter";
+    if (adminValues.username.length < 6)
+      errors.username = "Username minimal 6 karakter";
+    if (adminValues.password.length < 8)
+      errors.password = "Password minimal 8  karakter";
     setAdminErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -203,10 +206,19 @@ const SigninPage = () => {
                           name="password"
                           placeholder="Password"
                           size="lg"
-                          type="password"
                           value={customerValues.password}
                           onChange={handleCustomerChange}
                           status={customerErrors.password ? "error" : ""}
+                          type={isVisible ? "text" : "password"}
+                          endContent={
+                            <button className="focus:outline-none" type="button" onClick={toggleVisibility} aria-label="toggle password visibility">
+                              {isVisible ? (
+                                <FaEye className="text-2xl text-default-400 pointer-events-none" />
+                              ) : (
+                                <FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+                              )}
+                            </button>
+                          }
                         />
                         {customerErrors.password && (
                           <p className="text-red-500">
@@ -254,10 +266,19 @@ const SigninPage = () => {
                           name="password"
                           placeholder="Password"
                           size="lg"
-                          type="password"
                           value={creatorValues.password}
                           onChange={handleCreatorChange}
                           status={creatorErrors.password ? "error" : ""}
+                          type={isVisible ? "text" : "password"}
+                          endContent={
+                            <button className="focus:outline-none" type="button" onClick={toggleVisibility} aria-label="toggle password visibility">
+                              {isVisible ? (
+                                <FaEye className="text-2xl text-default-400 pointer-events-none" />
+                              ) : (
+                                <FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+                              )}
+                            </button>
+                          }
                         />
                         {creatorErrors.password && (
                           <p className="text-red-500">
@@ -303,10 +324,19 @@ const SigninPage = () => {
                           name="password"
                           placeholder="Password"
                           size="lg"
-                          type="password"
                           value={adminValues.password}
                           onChange={handleAdminChange}
                           status={adminErrors.password ? "error" : ""}
+                          type={isVisible ? "text" : "password"}
+                          endContent={
+                            <button className="focus:outline-none" type="button" onClick={toggleVisibility} aria-label="toggle password visibility">
+                              {isVisible ? (
+                                <FaEye className="text-2xl text-default-400 pointer-events-none" />
+                              ) : (
+                                <FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+                              )}
+                            </button>
+                          }
                         />
                         {adminErrors.password && (
                           <p className="text-red-500">{adminErrors.password}</p>

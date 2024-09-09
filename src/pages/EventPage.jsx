@@ -9,6 +9,7 @@ import DummyCard from "../assets/DummyCard.jpeg";
 import { IoLocation } from "react-icons/io5";
 import { Button, Input, Select } from "@nextui-org/react";
 import useAxios from "../hooks/useAxios";
+import { FaSpinner } from "react-icons/fa";
 
 const EventPage = () => {
   const [event, setEvent] = useState(null);
@@ -49,12 +50,12 @@ const EventPage = () => {
   return (
     <div className="flex flex-col min-h-screen">
       {loading ? (
-        <p>Loading...</p>
+        <div> </div>
       ) : (
         <>
           <HeaderWithoutInput />
-          <div className="flex mt-12 mx-24">
-            <div className="w-1/3 flex justify-center relative">
+          <div className="md:flex md:mt-12 mx-3 md:mx-24">
+            <div className="md:w-1/3 flex justify-center relative">
               <img
                 src={data.poster}
                 className="w-96 h-96 rounded-md object-cover"
@@ -65,7 +66,7 @@ const EventPage = () => {
                 </div>
               )}
             </div>
-            <div className="ml-8">
+            <div className="md:ml-8">
               <h1 className="text-3xl">{event.name}</h1>
               <div className="flex space-x-24">
                 <p>
@@ -78,7 +79,7 @@ const EventPage = () => {
               </div>
 
               <div className="flex space-x-2">
-                <div className="bg-slate-200 rounded-xl p-2 h-[80px] w-[250px]">
+              <div className="bg-slate-200 rounded-xl p-2 md:h-[80px] w-[250px]">
                   <p className="text-sm mb-1">Tanggal</p>
                   <p className="font-bold text-lg">
                     {new Date(event.date).toLocaleDateString("id-ID", {
@@ -88,7 +89,7 @@ const EventPage = () => {
                     })}
                   </p>
                 </div>
-                <div className="bg-slate-200 rounded-xl p-2 h-[80px] w-[250px]">
+                <div className="bg-slate-200 rounded-xl p-2 md:h-[80px] w-[250px]">
                   <p className="text-sm mb-1">Waktu Mulai </p>
                   <p className="font-bold text-lg">
                     {new Date(event.date).toLocaleTimeString([], {
@@ -97,8 +98,14 @@ const EventPage = () => {
                     })}
                   </p>
                 </div>
+                <div className="bg-slate-200 rounded-xl p-2 md:h-[80px] w-[250px]">
+                  <p className="text-sm mb-1">Tipe Event </p>
+                  <p className="font-bold text-lg">
+                    {event.eventCategory}  
+                  </p>
+                </div>
               </div>
-              <div className="items-center justify-around  my-4 p-2 w-[770px]">
+              <div className="items-center justify-around  my-4 p-2 md:w-[770px]">
                 <p className="font-bold">Description</p>
                 <p className="text-justify">{event.description}</p>
                 {isEventOver ? (

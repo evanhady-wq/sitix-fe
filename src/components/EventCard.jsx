@@ -15,15 +15,18 @@ const EventCard = ({ searchTerm }) => {
 
   const navigate = useNavigate();
 
-  const { data, error: fetchError, loading: isLoading, refetch } = useAxios(
-    `${BASE_URL}/api/event/allevent`,
-    "GET",
-    null
-  );
+  const {
+    data,
+    error: fetchError,
+    loading: isLoading,
+    refetch,
+  } = useAxios(`${BASE_URL}/api/event/allevent`, "GET", null);
 
   const getEventByCategory = async (categoryId) => {
     try {
-      const response = await axios.get(`${BASE_URL}/api/event/allevent/category/${categoryId}`);
+      const response = await axios.get(
+        `${BASE_URL}/api/event/allevent/category/${categoryId}`
+      );
       setEvents(response.data.data);
     } catch (error) {
       setError(error);
@@ -78,7 +81,11 @@ const EventCard = ({ searchTerm }) => {
       <div className="flex flex-row items-center justify-center gap-2 mb-3">
         <Button
           size="md"
-          className={activeCategory === "all" ? "bg-custom-blue-1 text-white" : "bg-custom-blue-3 text-white"}
+          className={
+            activeCategory === "all"
+              ? "bg-custom-blue-1 text-white"
+              : "bg-custom-blue-3 text-white"
+          }
           onClick={() => handleCategoryClick("all")}
         >
           Semua
@@ -87,7 +94,11 @@ const EventCard = ({ searchTerm }) => {
           <Button
             key={categoryEvent.id}
             size="md"
-            className={activeCategory === categoryEvent.id ? "bg-custom-blue-1 text-white" : "bg-custom-blue-3 text-white"}
+            className={
+              activeCategory === categoryEvent.id
+                ? "bg-custom-blue-1 text-white"
+                : "bg-custom-blue-3 text-white"
+            }
             onClick={() => handleCategoryClick(categoryEvent.id)}
           >
             {categoryEvent.categoryName}
@@ -99,18 +110,20 @@ const EventCard = ({ searchTerm }) => {
           filteredEvents.map((event) => {
             const isEventOver = new Date(event.date) < new Date();
             return (
-              <div key={event.id} className="w-48">
-                <Card className="w-[200px] cursor-pointer transition-transform transform hover:scale-110 duration-300 relative">
+              <div key={event.id} >
+                <Card className="w-[310px] md:w-[200px] cursor-pointer transition-transform transform hover:scale-110 duration-300 relative">
                   <CardBody
                     onClick={() => {
                       handleCardClick(event.id);
                     }}
                     className="relative"
                   >
-                    <div className="relative">
+                    <div className="flex md:flex-col gap-2">
+                      <div>
+                        <div className="relative w-24 md:w-full">
                       <img
                         src={event.poster}
-                        className="w-full h-48 rounded-md object-cover"
+                        className="w-full h-32 md:h-48 rounded-md object-cover"
                         alt="Event"
                       />
                       {isEventOver && (
@@ -119,9 +132,11 @@ const EventCard = ({ searchTerm }) => {
                         </div>
                       )}
                     </div>
-                    <div className="pt-3 flex">
+                    </div>
+                      <div className="w-40">
+                        <div className="md:pt-3 flex">
                       <IoLocation color="blue" />
-                      <p className="text-xs text-gray-500 ml-1 truncate">
+                      <p className="text-xs text-gray-500 ml-1">
                         {event.city}
                       </p>
                     </div>
@@ -139,6 +154,8 @@ const EventCard = ({ searchTerm }) => {
                         ? `Rp. ${event.ticketCategories[0].price.toLocaleString()}`
                         : "Price not available"}
                     </p>
+                    </div>
+                    </div>
                   </CardBody>
                 </Card>
               </div>

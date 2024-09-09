@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import SidebarCreator from "../components/SidebarCreator";
 import HeaderCreator from "../components/HeaderCreator";
 import { withLoading } from "../hoc/withLoading";
-import { Accordion, AccordionItem, Button } from "@nextui-org/react";
+import { Accordion, AccordionItem, Button, Input } from "@nextui-org/react";
 import Logo from "../assets/Logo.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -17,6 +17,8 @@ import {
   plugins,
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import { ca } from "date-fns/locale";
+import { FaLocationPin } from "react-icons/fa6";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -94,24 +96,20 @@ const CreatorPage = () => {
             <SidebarCreator />
           </div>
 
-          <div className="flex flex-col flex-grow">
+          <div className="flex flex-col flex-grow items-center">
             <HeaderCreator />
-            <div className="w-[270px] md:w-[550px] flex-col bg-custom-blue-1 bg-opacity-80 text-white mx-4 mt-4 rounded-xl p-3">
+            <div className="flex flex-col justify-center">
+              <div className=" flex-col bg-custom-blue-1 bg-opacity-80 text-white mx-4 mt-4 rounded-xl p-3">
               <div className="flex-row md:flex">
                 <div className="mt-1 md:mt-8">
-                  <p className="font-bold">Selamat Datang, {creator.name}</p>
-                  <p className="text-sm">
+                <p className="font-bold text-xl">
+                      Selamat Datang, {creator.name}
+                    </p>
+                    <p className="">
                     Kamu berada di SiTix Creator. Di sini kamu dapat membuat
                     event, menjual tiketnya, hingga melihat performa penjualan
                     setiap event kamu.
                   </p>
-                </div>
-                <div className="w-[500px]">
-                  <img
-                    src={Logo}
-                    className="transform scale-150 hidden md:inline"
-                    alt="Logo"
-                  />{" "}
                 </div>
               </div>
 
@@ -122,8 +120,8 @@ const CreatorPage = () => {
                 Buat Event
               </Button>
             </div>
-            <div className="mt-12 ml-6 w-[1200px]">
-              <p className="text-3xl font-semibold">Event yang kamu buat</p>
+            <div className="mt-12 mx-2 md:mx-0  ">
+                <p className="text-3xl font-semibold">Event's Dashboard</p>
               {events.length > 0 ? (
                 events.map((event) => {
                   let totalPendapatan = 0;
@@ -184,54 +182,32 @@ const CreatorPage = () => {
                   };
 
                   return (
-                    <Accordion key={event.id} className="mb-4" variant="shadow">
+                    <Accordion
+                        key={event.id}
+                        className="mb-4"
+                        variant="shadow"
+                      >
                       <AccordionItem title={event.name}>
                         <h4 className="font-light text-4xl">{event.name}</h4>
-                        <p className="text-xl">{event.eventCategory}</p>
-                        <p className="text-2xl -mt-3">{event.city}</p>
+                        <div className="flex gap-2">
+                            <p className="text-lg">{event.eventCategory}</p>
+                            <p className="text-xl font-bold">at {event.city}</p>
+                          </div>
                         <h6>Tiket Kategori:</h6>
-                        <div className="flex flex-row gap-32">
-                          <div>
+                        <div className="flex flex-col md:flex-row gap-12 md:gap-32">
+                        <div className="md:w-1/2 space-y-2 ">
                             {event.ticketCategories.map((category) => (
                               <div key={category.id}>
-                                <p className="ml-3">{category.name}</p>
-                                <div className="ml-4">
-                                  <p className="ml-5 -mt-2">
-                                    Quota:{" "}
-                                    <span className="ml-[203px]">
-                                      {category.quota}
-                                    </span>
-                                  </p>
-                                  <p className="ml-5 -mt-2">
-                                    Tiket Tersisa:{" "}
-                                    <span className="ml-[159px]">
-                                      {category.availableTicket}
-                                    </span>
-                                  </p>
-                                  <p className="ml-5 -mt-2">
-                                    Harga:{" "}
-                                    <span className="ml-[206px]">
-                                      Rp {formatPrice(category.price)}
-                                    </span>
-                                  </p>
-                                  <p className="ml-5 -mt-2">
-                                    Tiket Terjual:{" "}
-                                    <span className="ml-[160px]">
-                                      {category.quota -
-                                        category.availableTicket}
-                                    </span>
-                                  </p>
-                                  <p className="ml-5 -mt-2">
-                                    Pendapatan Per Kategori:{" "}
-                                    <span className="ml-[70px]">
-                                      Rp{" "}
-                                      {formatPrice(
-                                        (category.quota -
-                                          category.availableTicket) *
-                                          category.price
-                                      )}
-                                    </span>
-                                  </p>
+                                <p className="ml-3 font-bold">{category.name}</p>
+                                  <div className="space-y-2 bg-custom-blue-1 bg-opacity-65 p-3 rounded-xl">
+                                    <Input className="w-full" label="Quota" value={category.quota} isDisabled />
+                                    <Input label='Tiket Tersisa' value={category.availableTicket} isDisabled />
+                                    <Input label='Harga' value={formatPrice(category.price)} isDisabled/>
+                                    <Input label='Tiket Terjual' value={category.quota - category.availableTicket} isDisabled/>
+                                    <Input label='Revenue per kategori' 
+                                      value={formatPrice((category.quota - category.availableTicket) * category.price )}
+                                      isDisabled
+                                    />
                                 </div>
                               </div>
                             ))}
@@ -239,24 +215,36 @@ const CreatorPage = () => {
                           <div className="-mt-7">
                             <h3>Analytic Data</h3>
                             <div>
-                              <h5 className="mt-3">Perbandingan tiket terjual</h5>
+                            <h5 className="mt-3">
+                                  Perbandingan tiket terjual
+                                </h5>
+                                <Pie data={pieChartData} className="mt-2" />
+                              </div>
                               <Pie data={pieChartData} className="mt-2" />
                             </div>
-                            <div className="mt-4">
-                              <p className="font-semibold text-xl">Performa Penjualan</p>
+                            </div>
+                          <div className="flex flex-col md:flex-row  justify-around  mt-4">
+                            <p className="text-2xl font-bold">
+                              Total Pendapatan: Rp{" "}
+                              {formatPrice(totalPendapatan)}
+                            </p>
+                            <div>
+                                <p className="font-semibold text-xl">
+                                  Performa Penjualan
+                                </p>
                               <p className="text-base">
-                                Tiket paling laris: <span className="ml-5"></span> {tiketPalingLaku?.name} ({tiketPalingLaku?.terjual} terjual)
+                              Tiket paling laris:{" "}
+                                  <span className="ml-5"></span>{" "}
+                                  {tiketPalingLaku?.name} (
+                                  {tiketPalingLaku?.terjual} terjual)
                               </p>
                               <p className="text-base">
-                                Tiket kurang laku: <span className="ml-3"></span> {tiketKurangLaku?.name} ({tiketKurangLaku?.terjual} terjual)
+                              Tiket kurang laku:{" "}
+                                  <span className="ml-3"></span>{" "}
+                                  {tiketKurangLaku?.name} (
+                                  {tiketKurangLaku?.terjual} terjual)
                               </p>
                             </div>
-                          </div>
-                        </div>
-                        <div className="mt-4">
-                          <p className="text-2xl font-bold">
-                            Total Pendapatan: Rp {formatPrice(totalPendapatan)}
-                          </p>
                         </div>
                       </AccordionItem>
                     </Accordion>
@@ -265,6 +253,7 @@ const CreatorPage = () => {
               ) : (
                 <p>Kamu belum membuat event</p>
               )}
+              </div>
             </div>
           </div>
         </div>

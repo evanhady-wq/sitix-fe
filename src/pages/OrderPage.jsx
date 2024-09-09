@@ -120,11 +120,8 @@ const OrderPage = () => {
           paymentUrl !== null &&
           paymentUrl !== ""
         ) {
-          const newTab = window.open("", "_blank");
-          newTab.location.href = paymentUrl;
-          console.log(response.data.data.paymentUrl);
-
-          window.location.href = "/";
+          window.open(paymentUrl, "_blank");
+          window.location.href = "/mytransaction";
         } else {
           console.error("Payment URL tidak valid");
         }
@@ -132,7 +129,7 @@ const OrderPage = () => {
         console.error("Payment URL tidak ditemukan");
       }
     } catch (error) {
-      console.error("Error create transaction:", error);
+      console.error("Error create transaction:", error.message);
     }
   };
 
@@ -141,22 +138,22 @@ const OrderPage = () => {
   return (
     <>
       <Header />
-      <div className="flex justify-between mx-16 my-4 gap-4 pl-32 pr-64">
+      <div className="flex flex-col md:flex-row justify-between mx-4 md:mx-16 my-4 gap-4 md:pl-32 md:pr-64">
         <div>
           <div>
             <p className="font-bold text-xl mb-0">{}</p>
             <p>Pilih tiket yang ingin kamu pesan</p>
             {ticketCategories.map((ticket) => (
               <div key={ticket.id}>
-                <Card className="mb-4 text-xl w-[850px]">
+                <Card className="mb-4 text-xl md:w-[850px]">
                   <CardBody className="p-4">
                     <p className="font-bold text-2xl mb-0">{ticket.name}</p>
-                    <p className="text-base mt-2 ">
+                    <p className="text-sm md:text-base  mt-2 ">
                       Harga tertera belum termasuk pajak, biaya layanan, dan
                       biaya platfom. Harap selesaikan transaksi dalam waktu 10
                       menit.
                     </p>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col md:flex-row justify-between items-center">
                       <p className="font-bold">
                         Rp. {ticket.price.toLocaleString("id-ID")}
                       </p>
@@ -211,8 +208,8 @@ const OrderPage = () => {
             ))}
           </div>
         </div>
-        <div className="w-1/3">
-          <Card className="mt-10">
+        <div className="md:w-1/3">
+          <Card className="md:mt-10">
             <CardBody>
               <p className="text-lg font-bold">Detail Pesanan</p>
               {Object.keys(quantities).length === 0 ? (

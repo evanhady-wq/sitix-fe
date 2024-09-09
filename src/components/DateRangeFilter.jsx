@@ -16,27 +16,28 @@ const DateRangeFilter = ({ onApply }) => {
       };
   
     return (
-      <div className="flex ml-4 space-x-2">
+      <div className="flex flex-col md:flex-row md:space-x-2 md:items-center gap-2 mx-2 md:mx-0 ">
         <DatePicker
           selected={startDate}
           onChange={(date) => setStartDate(date)}
           dateFormat="dd-MMMM-yyyy"
           placeholderText="Pilih Tanggal Mulai"
-          className="border p-2 rounded"
+          className="border p-2 rounded-2xl w-full"
           locale={id}
           />
+          <p className="pt-3 hidden md:inline">sd</p>
         <DatePicker
           selected={endDate}
           onChange={(date) => setEndDate(date)}
           dateFormat="dd-MMMM-yyyy"
           placeholderText="Pilih Tanggal Akhir"
-          className="border p-2 rounded"
+          className="border p-2 rounded-2xl w-full"
           minDate={startDate}
           locale={id}
         />
         <Button
           onClick={handleApply}
-          className="bg-custom-blue-1 text-white"
+          className="bg-custom-blue-2 text-white"
           disabled={!startDate || !endDate}
         >
           Terapkan
