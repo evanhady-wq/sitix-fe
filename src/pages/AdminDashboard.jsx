@@ -30,6 +30,7 @@ const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [creators, setCreators] = useState([]);
+  const [eventSoldTicket, setEventSoldTicket] = useState([]);
   const [eventCategories, setEventCategories] = useState([]);
   const [events, setEvents] = useState(null);
   const [eventCounts, setEventCounts] = useState([]);
@@ -192,6 +193,37 @@ const navigate = useNavigate();
       title: {
         display: true,
         text: 'Top Kategori Event Periode Bulan '+convertToMonthIndonesia(currentDate.getMonth() + 1)+' '+currentDate.getFullYear(),
+      },
+    },
+  };
+
+  const dataEventWithSoldTicketBar = {
+    labels: eventSoldTicket.map((ev)=>{return ev.name}),
+    datasets: [
+      {
+        label: 'Jumlah Penjualan Tiket',
+        data: eventSoldTicket.map((ev)=>{return ev.totalTicketCatSoldTicket}),
+        backgroundColor: [
+          'rgba(75, 192, 192, 1)',
+        ],
+        borderColor: [
+          'rgba(75, 192, 192, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+  
+  const optionEventWithSoldTicketBar = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Top Penjualan Tiket Periode Bulan '+convertToMonthIndonesia(currentDate.getMonth() + 1)+' '+currentDate.getFullYear(),
       },
     },
   };
@@ -378,6 +410,21 @@ const navigate = useNavigate();
     const filteredEvents = eventData.filter(event =>
             isWithinInterval(new Date(event.date), { start: startDate, end: endDate })
           );
+          const eventWithSoldTicket=filteredEvents.map((event)=>{
+            const ticketCategories=event.ticketCategories;
+            const ticketCategoriesQuota=ticketCategories.map((ticketCat)=>{
+              const ticketCatSoldTicket=ticketCat.quota-ticketCat.availableTicket;
+              return ticketCatSoldTicket;
+            })
+            const totalTicketCatSoldTicket=ticketCategoriesQuota.reduce((accumulator, currentValue) => {
+              return accumulator + currentValue;
+            }, 0);
+            return { ...event, totalTicketCatSoldTicket };
+          })
+
+          // const eventWithMonetazion=filteredEvents.map((event)=>{
+
+          // })
           const creatorsWithEventCount = creatorData.map(creator => {
             const eventCount = filteredEvents.filter(event => event.creatorId === creator.id).length;
             return { ...creator, eventCount };
@@ -396,9 +443,15 @@ const navigate = useNavigate();
           if(creatorsWithEventCount.length>5){
             limitCreators=creatorsWithEventCount.slice(0,5);
           }
+          eventWithSoldTicket.sort((a, b)=>b.totalTicketCatSoldTicket - a.totalTicketCatSoldTicket);
+          let limitEventWithSoldTicket=eventWithSoldTicket;
+          if(eventWithSoldTicket.length>5){
+            limitEventWithSoldTicket=eventWithSoldTicket.slice(0,5);
+          }
           setCreators(limitCreators);
           setEventCategories(limitEventCategories);
           setEvents(eventData);
+          setEventSoldTicket(limitEventWithSoldTicket);
   }
 
     return (
@@ -455,6 +508,9 @@ const navigate = useNavigate();
             </div>
             <div className="w-[270px] md:w-[550px] flex-col bg-white bg-opacity-80 text-white mx-4 mt-4 rounded-xl shadow-lg p-3">
             <Bar data={dataCreatorEventBar} options={optionCreatorEventBar} width={400} height={250} />
+            </div>
+            <div className="w-[270px] md:w-[550px] flex-col bg-white bg-opacity-80 text-white mx-4 mt-4 rounded-xl shadow-lg p-3">
+            <Bar data={dataEventWithSoldTicketBar} options={optionEventWithSoldTicketBar} width={400} height={250} />
             </div>
             </div>
           </div>
