@@ -13,6 +13,12 @@ const UserCard = ({ user }) => {
 
   const handleChangePassword = async () => {
     setLoading(true);
+    if (newPassword !== retypePassword) {
+      setError("New Passwords do not match.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const token = localStorage.getItem("token_creator");
       const response = await axios.put(

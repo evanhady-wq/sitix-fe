@@ -7,6 +7,7 @@ import axios from "axios";
 import { withLoading } from "../hoc/withLoading";
 import PictureUploadComponent from "../components/PictureUpload";
 import UserCard from "../components/UserCard"
+import DeleteAccount from "../components/DeleteAccount";
 const CreatorProfile = () => {
   const [error, setError] = useState();
   const [loading, setLoading] = useState(true);
@@ -95,6 +96,11 @@ const CreatorProfile = () => {
       introduction: profile.introduction,
       profilePicture: profile.profilePicture,
     });
+  };
+
+  const handleAccountDeleted = () => {
+    localStorage.removeItem("token_creator");
+    window.location.href = "/"; // Redirect ke halaman home atau halaman login setelah delete
   };
 
   if (loading) return <p>Loading...</p>;
@@ -199,6 +205,7 @@ const CreatorProfile = () => {
               </div>
               <UserCard user={user}/>
             </div>
+            {/* <DeleteAccount onAccountDeleted={handleAccountDeleted} />           */}
           </div>
         </div>
       </div>
