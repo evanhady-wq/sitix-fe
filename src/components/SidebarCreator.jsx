@@ -30,6 +30,7 @@ const SidebarCreator = () => {
     }
   };
 
+  
   useEffect(() => {
     fetchCreator();
   }, []);
@@ -52,7 +53,7 @@ const SidebarCreator = () => {
             {creator.profilePicture ? (
               <img src={creator.profilePicture} className="w-10 h-10 rounded-full" />
             ) : (
-              <img src="https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_640.png" />
+              <img src="https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_640.png" className="w-10 h-10 rounded-full"/>
             )}
             
             <div className="pt-2">

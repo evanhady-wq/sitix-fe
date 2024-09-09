@@ -3,14 +3,15 @@ import SidebarCreator from "../components/SidebarCreator";
 import HeaderCreator from "../components/HeaderCreator";
 import { Button, Input, Textarea } from "@nextui-org/react";
 import { BASE_URL } from "../service/constants";
-import Logo from "../assets/Logo3.png";
 import axios from "axios";
 import { withLoading } from "../hoc/withLoading";
-
+import PictureUploadComponent from "../components/PictureUpload";
+import UserCard from "../components/UserCard"
 const CreatorProfile = () => {
   const [error, setError] = useState();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState();
+  const [user, setUser] = useState();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -18,9 +19,7 @@ const CreatorProfile = () => {
     introduction: "",
     profilePicture: "",
   });
-  const [profilePicture, setProfilePicture] = useState("");
 
-  //get token
   const token = localStorage.getItem("token_creator");
   const config = {
     headers: {
@@ -28,7 +27,6 @@ const CreatorProfile = () => {
     },
   };
 
-  //fetch profile
   const getProfile = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/api/creator/profile`, config);
@@ -47,165 +45,164 @@ const CreatorProfile = () => {
     }
   };
 
+  const getUser = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/api/user`, config);
+      setUser(res.data.data);
+    } catch (error) {
+      setError(error);
+    }
+  };
+
   useEffect(() => {
     getProfile();
+    getUser();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-
-  //Handle inputan
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-
+  const handlePictureUpdated = (newProfilePicture) => {
+    setProfile((prevProfile) => ({
+      ...prevProfile,
+      profilePicture: newProfilePicture,
+    }));
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value,
+      profilePicture: newProfilePicture,
     }));
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setProfilePicture(file);
-  };
-
-  //Function Save Profile
   const handleSaveProfile = async () => {
     try {
-      const formDataPicture = new FormData();
-      formDataPicture.append("profile", profilePicture);
-
-      const resProfilePicture = await axios.post(
-        `${BASE_URL}/api/creator/profilepicture`,
-        formDataPicture,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      localStorage.setItem("path", resProfilePicture.data.data.path);
-      const pathValue = localStorage.getItem("path");
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        profilePicture: pathValue,
-      }));
-
       const resEditProfile = await axios.put(
         `${BASE_URL}/api/creator/profile`,
         formData,
         config
       );
       console.log("Profile updated successfully:", resEditProfile.data.message);
-
       alert("Profile Berhasil Diupdate");
       setIsEditing(false);
-      getProfile();
+      getProfile(); // Optional, if you want to refetch the entire profile
     } catch (error) {
       setError(error);
-      console.log("Error Guys");
+      console.log("Error saving profile:", error);
     }
   };
 
+  const handleCancel = () => {
+    setIsEditing(false);
+    setFormData({
+      name: profile.name,
+      phone: profile.phone,
+      introduction: profile.introduction,
+      profilePicture: profile.profilePicture,
+    });
+  };
+
+  if (loading) return <p>Loading...</p>;
+
   return (
-    <>
-      <div className="flex h-screen">
-        <div className="hidden md:inline">
-          <SidebarCreator />
-        </div>
-        <div className="flex flex-col flex-grow">
-          <HeaderCreator />
-
-          <div className="mx-2 md:mx-4 mt-2 md:mt-4 flex justify-center md:justify-between">
-            <div>
-              <div className="flex-col p-3 w-[300px] md:w-[600px] bg-custom-blue-1 bg-opacity-80 text-white rounded-xl">
-                <p className="font-bold">Creator Profile</p>
-
-                <div className="md:flex gap-4">
-                  <div className="h-[250px] md:w-[200px] mb-3 md:mb-0">
-                    {profile.profilePicture ? (
-                      <img
-                        src={profile.profilePicture}
-                        alt="Profile Picture"
-                        className="w-full h-full object-cover rounded-xl"
-                      />
+    <div className="flex h-screen">
+      <div className="hidden md:inline">
+        <SidebarCreator />
+      </div>
+      <div className="flex flex-col flex-grow">
+        <HeaderCreator />
+        <div className="mx-2 md:mx-4 mt-2 md:mt-4 flex justify-center">
+          <div>
+            <div className="flex-col p-5 w-[400px] md:w-[700px] md:h-[850px] bg-custom-blue-1 bg-opacity-80 text-white rounded-xl">
+              <p className="font-bold text-3xl">Creator Profile</p>
+              <div className="md:flex gap-4">
+                <div className="h-[320px] md:w-[300px] mb-3 md:mb-0">
+                  {profile.profilePicture ? (
+                    <img
+                      src={profile.profilePicture}
+                      alt="Profile Picture"
+                      className="w-full h-5/6 object-cover rounded-xl"
+                    />
+                  ) : (
+                    <img
+                      src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png"
+                      alt="Default Avatar"
+                      className="w-full h-5/6 object-cover rounded-xl"
+                    />
+                  )}
+                  <PictureUploadComponent
+                    token={token}
+                    onPictureUpdated={handlePictureUpdated}
+                  />
+                </div>
+                <div className="space-y-2 md:space-y-4 md:w-96">
+                  <Input
+                    disabled={!isEditing}
+                    label="Name"
+                    name="name"
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData((prevFormData) => ({
+                        ...prevFormData,
+                        name: e.target.value,
+                      }))
+                    }
+                    css={{ maxWidth: "20rem" }}
+                  />
+                  <Input
+                    disabled={!isEditing}
+                    label="Phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={(e) =>
+                      setFormData((prevFormData) => ({
+                        ...prevFormData,
+                        phone: e.target.value,
+                      }))
+                    }
+                    css={{ maxWidth: "10rem" }}
+                  />
+                  <Textarea
+                    disabled={!isEditing}
+                    label="Introduction"
+                    name="introduction"
+                    value={formData.introduction}
+                    onChange={(e) =>
+                      setFormData((prevFormData) => ({
+                        ...prevFormData,
+                        introduction: e.target.value,
+                      }))
+                    }
+                    css={{ maxWidth: "20rem" }}
+                  />
+                  <div className="flex gap-4 my-4 justify-center">
+                    {!isEditing ? (
+                      <Button
+                        className="bg-custom-blue-2 text-white font-bold w-full"
+                        onClick={() => setIsEditing(true)}
+                      >
+                        Edit Profile
+                      </Button>
                     ) : (
-                      <img
-                        src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png"
-                        alt="Default Avatar"
-                        className="w-full h-full object-cover rounded-xl"
-                      />
+                      <>
+                        <Button
+                          className="bg-custom-blue-2 text-white font-bold w-5/6"
+                          onClick={handleSaveProfile}
+                        >
+                          Save
+                        </Button>
+                        <Button
+                          className="bg-red-600 text-white font-bold w-5/6"
+                          onClick={handleCancel}
+                        >
+                          Cancel
+                        </Button>
+                      </>
                     )}
                   </div>
-
-                  <div className="space-y-2 md:space-y-4">
-                    <Input
-                      isDisabled={!isEditing}
-                      label="Name"
-                      name="name"
-                      defaultValue={profile.name}
-                      onChange={handleInputChange}
-                      className="md:w-72"
-                    />
-                    <Input
-                      isDisabled={!isEditing}
-                      label="Phone"
-                      name="phone"
-                      defaultValue={profile.phone}
-                      onChange={handleInputChange}
-                      className="max-w-xs"
-                    />
-                    <Textarea
-                      isDisabled={!isEditing}
-                      label="Introduction"
-                      name="introduction"
-                      defaultValue={profile.introduction}
-                      onChange={handleInputChange}
-                      className="max-w-xs"
-                    />
-                  </div>
                 </div>
-
-                {isEditing && (
-                  <div className="mt-4 flex">
-                    <Input
-                      type="file"
-                      className="w-[200px]"
-                      size="sm"
-                      id="files"
-                      name="profilePicture"
-                      onChange={handleFileChange}
-                    />
-                  </div>
-                )}
               </div>
-
-              <div className="mt-2 flex gap-4">
-                {!isEditing ? (
-                  <Button
-                    className="bg-custom-blue-2 text-white font-bold"
-                    onClick={() => setIsEditing(true)}
-                  >
-                    Edit Profile
-                  </Button>
-                ) : (
-                  <Button
-                    className="bg-custom-blue-2 text-white font-bold"
-                    onClick={handleSaveProfile}
-                  >
-                    Save
-                  </Button>
-                )}
-              </div>
+              <UserCard user={user}/>
             </div>
-
-            {/* <div className="w-1/3 h-[322px]">
-              <img src={Logo} />
-            </div> */}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
